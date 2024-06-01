@@ -1,0 +1,367 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:10080/backend
+    description: Backend
+tags:
+  - name: WeatherDataController
+    description: Контроллер для работы с погодными условиями
+
+paths:
+  /api/v1/weather-data:
+    get:
+      tags:
+        - WeatherDataController
+      summary: Получить все параметры погодных условий
+      description: Endpoint для получения всех погодных условий
+      operationId: getWeatherDatas
+      responses:
+        '200':
+          description: Возврат списка погодных параметров
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherDataDto'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+    post:
+      tags:
+        - WeatherDataController
+      summary: Добавить новое погодное условие в БД
+      description: Endpoint на создание нового погодного условия
+      operationId: createWeatherData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateWeaterDataDto'
+      responses:
+        '201':
+          description: Успешное добавление погодного параметра
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherDataDto'
+        '400':
+          description: Ошибка в составлении запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example:
+                  description: Пример неправильного запроса
+                  value:
+                    message: Название метеоданной не соответствует формату
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '403':
+          description: Пользователю не хватает прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Недостаточно прав для выполнения операции
+                    code: 403
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+    patch:
+      tags:
+        - WeatherDataController
+      summary: Обновить значение метеоданной
+      description: Обновление одного из значения метеоданной
+      operationId: patchWeatherData
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WeatherDataDto'
+      responses:
+        '200':
+          description: Успешная замена полей
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherDataDto'
+        '400':
+          description: неправильно составлен запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Отсутствует одно из важных полей
+                  value:
+                    message: Отсутствует поле Id в теле запроса
+                    code: 400
+                example2:
+                  description: Запрос составлен неправильно
+                  value:
+                    message: Название метеоданной не соответствует формату
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '403':
+          description: Пользователю не хватает прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Недомтаточно прав для выполнения операции
+                    code: 403
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+  /api/v1/weather-data/{id}:
+    parameters: 
+        - name: id
+          required: true
+          in: path
+          description: Id погодного параметра
+          schema:
+            type: string
+            format: UUID
+            example: 1993dbee-eb94-46cb-aa9d-5b166b1c6659
+    get:
+      tags: 
+        - WeatherDataController
+      summary: Получить конкретный погодный параметр
+      description: Получение информации о погодном параметре по id
+      operationId: getWeatherDataById
+      responses:
+        '200':
+          description: Успешный ответ на запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WeatherDataDto'
+        '400':
+          description: Отсутствие id в запросе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Отсутствует параметр id в запросе
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '404':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Параметр не был найден в БД
+                  value:
+                    message: Запись о параметре 1993dbee-eb94-46cb-aa9d-5b166b1c6659 нет в системе
+                    code: 404
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+    delete:
+      tags: 
+        - WeatherDataController
+      summary: Удалить выбранный параметр
+      description: Удаление выбранного параметра из системы
+      operationId: deleteWeatherDataById
+      responses:
+        '200':
+          description: Успешное удаление параметра из БД
+        '400':
+          description: Отсутствие в запросе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа с отсутствием id
+                  value:
+                    message: Отсутствует параметр id в запросе
+                    code: 400
+                exmaple2:
+                  description: Существует связи у параметра
+                  value:
+                    message: Невозможно удалить параметр Температура воздуха. Он связан с другими записями
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '403':
+          description: Пользователю не хватает прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Недостаточно прав для выполнения операции
+                    code: 403
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    ApiExceptionDto:
+      type: object
+      description: ДТО для ответа с ошибкой
+      required:
+        - code
+        - message
+      properties:
+        message:
+          type: string
+          description: Сообщение с ошибкой
+        code:
+          type: integer
+          format: int32
+    WeatherDataDto:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 1993dbee-eb94-46cb-aa9d-5b166b1c6659
+          description: ID погодного параметра в системе
+        name:
+          type: string
+          example: Температура воздуха
+          description: Название погодного параметра
+    CreateWeaterDataDto:
+      type: object
+      description: ДТО на добавление новго погодного условия
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          example: Температура воздуха
+      
+      
+    

@@ -22,7 +22,7 @@ public class WeatherData {
     private UUID id;
 
     @Column(name = "name", nullable = false, unique = true, length = 32)
-    @Pattern(regexp = "[а-я\s]{4,32}", message = "Шаблон строки не совпадает")
+    @Pattern(regexp = "[а-я\s]{4,32}", message = "Название метеоданной не соответствует формату")
     @Length(min = 4, max = 32, message = "Размер название метеоданной не подходит")
     private String name;
 
