@@ -8,6 +8,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.*;
+import org.jenjetsu.graduate_project.entity.formula.*;
 
 @Getter
 @Setter
@@ -27,7 +28,7 @@ public class FFWI {
     @Pattern(regexp = "[а-яА-Я][а-яА-Я\\s]{2,31}", message = "Шаблон строки не совпадает")
     private String name;
 
-    //    @ValidFormula
+    @ValidFormula
     @Column(name = "formula", nullable = false, length = 512)
     private String formula;
 
