@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+
+  database:
+    image: 'mirror.gcr.io/library/postgres:15-alpine'
+    container_name: 'graduate-db'
+    environment:
+      - POSTGRES_USER=Stey
+      - POSTGRES_PASSWORD=123321
+      - POSTGRES_DB=jenjetsu
+    ports:
+      - 5432:5432
