@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-06-01T16:21:44.884137818+10:00[Asia/Vladivostok]", comments = "Generator version: 7.5.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-06-25T12:23:41.391355525+10:00[Asia/Vladivostok]", comments = "Generator version: 7.5.0")
 @Validated
 @Tag(name = "WeatherDataController", description = "Контроллер для работы с погодными условиями")
 public interface WeatherDataControllerApi {
@@ -189,7 +189,7 @@ public interface WeatherDataControllerApi {
         tags = { "WeatherDataController" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Возврат списка погодных параметров", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = WeatherDataDto.class))
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = WeatherDataDto.class)))
             }),
             @ApiResponse(responseCode = "401", description = "Пользователь не авторизован", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
@@ -205,7 +205,7 @@ public interface WeatherDataControllerApi {
         produces = { "application/json" }
     )
     
-    ResponseEntity<WeatherDataDto> getWeatherDatas(
+    ResponseEntity<List<WeatherDataDto>> getWeatherDatas(
         
     );
 

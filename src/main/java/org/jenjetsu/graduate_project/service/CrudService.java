@@ -8,7 +8,7 @@ public interface CrudService<E, ID extends Serializable> {
     public E readById(ID id);
     public List<E> readAll();
     public E create(E raw);
-    public void update(E raw);
+    public E update(E raw);
     public E deleteById(ID id);
     public boolean existsById(ID id);
     

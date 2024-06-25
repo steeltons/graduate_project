@@ -18,7 +18,7 @@ import jakarta.annotation.Generated;
  * WeatherDataDto
  */
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-06-01T16:21:44.884137818+10:00[Asia/Vladivostok]", comments = "Generator version: 7.5.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-06-25T12:23:41.391355525+10:00[Asia/Vladivostok]", comments = "Generator version: 7.5.0")
 public class WeatherDataDto {
 
   private UUID id;

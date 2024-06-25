@@ -68,20 +68,10 @@ public class SimpleJpaService<E, ID extends Serializable> implements CrudService
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void update(E newEntity) {
-        updateEntity(newEntity);
-    }
+    public E update(E newEntity) {
+        var updatedEntity = jpaRepository.saveAndFlush(newEntity);
 
-    /**
-     * <h2>updateEntity</h2>
-     * <p>Overridable method for updating entities. Used by update method that wrapped by @Transactional</p>
-     *
-     * @param newEntity
-     *
-     * @return
-     */
-    protected E updateEntity(E newEntity) {
-        return this.jpaRepository.saveAndFlush(newEntity);
+        return updatedEntity;
     }
 
     @Override

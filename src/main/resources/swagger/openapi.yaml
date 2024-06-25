@@ -23,7 +23,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/WeatherDataDto'
+                type: array
+                items:
+                  $ref: '#/components/schemas/WeatherDataDto'
         '401':
           description: Пользователь не авторизован
           content:
@@ -186,17 +188,17 @@ paths:
                     message: Произошла ошибка на стороне сервера
                     code: 500
   /api/v1/weather-data/{id}:
-    parameters: 
-        - name: id
-          required: true
-          in: path
-          description: Id погодного параметра
-          schema:
-            type: string
-            format: UUID
-            example: 1993dbee-eb94-46cb-aa9d-5b166b1c6659
+    parameters:
+      - name: id
+        required: true
+        in: path
+        description: Id погодного параметра
+        schema:
+          type: string
+          format: UUID
+          example: 1993dbee-eb94-46cb-aa9d-5b166b1c6659
     get:
-      tags: 
+      tags:
         - WeatherDataController
       summary: Получить конкретный погодный параметр
       description: Получение информации о погодном параметре по id
@@ -257,7 +259,7 @@ paths:
                     message: Произошла ошибка на стороне сервера
                     code: 500
     delete:
-      tags: 
+      tags:
         - WeatherDataController
       summary: Удалить выбранный параметр
       description: Удаление выбранного параметра из системы
@@ -362,6 +364,3 @@ components:
         name:
           type: string
           example: Температура воздуха
-      
-      
-    
