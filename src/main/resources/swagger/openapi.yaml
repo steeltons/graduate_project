@@ -8,6 +8,12 @@ servers:
 tags:
   - name: WeatherDataController
     description: Контроллер для работы с погодными условиями
+  - name: FFWIController
+    description: Контроллер для работы с комплексными показателями пожарной опасности
+  - name: FWIController
+    description: Контроллер для работы с классом пожарной опасности
+  - name: UserController
+    description: Контроллер для работы с пользователями
 
 paths:
   /api/v1/weather-data:
@@ -320,6 +326,223 @@ paths:
                   value:
                     message: Произошла ошибка на стороне сервера
                     code: 500
+
+  /api/v1/fire-forecast-indexes:
+    get:
+      tags:
+        - FFWIController
+      summary: Endpoint для получения всей информации об КППО
+      description: Получение списка КППО для отображения на странице
+      operationId: getAllFfwi
+      responses:
+        '200':
+          description: Успешный ответ на запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FFWIResponseDto'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+    post:
+      tags:
+        - FFWIController
+      summary: Endpoint для добавления нового КППО
+      description: Добавление КППО в базу данных
+      operationId: createFfwi
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FFWICreateRequestDto'
+            examples:
+              example1:
+                value:
+                  name: КППО Свердловой
+                  formula: $K_v * ($T_d - $T_o) * $T_d
+                  weatherDataParams:
+                    - id: 28723f7b-7798-4e34-9569-e46a255aab3d
+                      formulaParameter: $K_v
+                    - id: 28723f7b-7798-4e34-9569-e46a255aab3d
+                      formulaParameter: $T_d
+                    - id: 28723f7b-7798-4e34-9569-e46a255aab3d
+                      formulaParameter: $T_o
+
+      responses:
+        '201':
+          description: Успешное создание КППО
+        '400':
+          description: Ошибка в составлении запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример неправильного запроса
+                  value:
+                    message: Название КППО не соответствует формату
+                    code: 400
+                example2:
+                  description: Формула не соответствует грамматике
+                  value:
+                    message: Формула не соответствует грамматике
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '403':
+          description: Пользователю не хватает прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Недостаточно прав для выполнения операции
+                    code: 403
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+
+  /api/v1/users/login:
+    post:
+      tags:
+        - UserController
+      summary: Endpoint для аутентификации пользователя в системе
+      description: Аутентификация пользователя в приложении
+      operationId: loginUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginDto'
+      responses:
+        '200':
+          description: Успешная аутентификация пользователя в системе
+        '400':
+          description: Ошибка в составлении запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример неправильного запроса_1
+                  value:
+                    message: В логине встретился неподдерживаемый символ
+                    code: 400
+        '404':
+          description: Пользователь не найден в приложении по username или паролю
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Запись о пользователе с логином/почтой или паролем не найдена
+                  value:
+                    message: Пользователь с такими данными не найден в системе
+                    code: 404
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+  /api/v1/users/registration:
+    post:
+      tags:
+        - UserController
+      summary: Endpoint для регистрации пользователя в системе
+      description: Регистрация нового пользователя в приложении
+      operationId: registrateUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateDto'
+      responses:
+        '201':
+          description: Успешная регистрация пользователя
+        '400':
+          description: Ошибка в составлении запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример неправильного запроса_1
+                  value:
+                    message: В логине встретился неподдерживаемый символ
+                    code: 400
+                example2:
+                  description: Пример неправильного запроса_2
+                  value:
+                    message: Код регистрации истёк
+                    code: 400
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+
+
 components:
   securitySchemes:
     bearerAuth:
@@ -327,6 +550,7 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
+    # DTO для погодных параметров
     ApiExceptionDto:
       type: object
       description: ДТО для ответа с ошибкой
@@ -364,3 +588,120 @@ components:
         name:
           type: string
           example: Температура воздуха
+    # DTO для КППО
+    FFWIResponseDto:
+      description: DTO представления КППО в приложении
+      properties:
+        ffwiId:
+          type: string
+          description: ID КППО
+          format: uuid
+          example: 92eb322f-9fec-4f5c-adbf-008627ed271a
+        name:
+          type: string
+          description: Название КППО
+          example: КППО Нестерова
+        formula:
+          type: string
+          description: Формула определения КП
+          example: ($T_d - $T_0) * $T_d
+        fwis:
+          type: string
+          description: Список названий КПО, придлежащих КППО
+          example: КПО_Нестеров_1, КПО_Нестеров_2, КПО_Нестеров_3
+        weatherParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/FFWIWeatherParamDto'
+        precipitationTableParams:
+          type: array
+          items:
+            type: object
+            properties:
+              fireRange:
+                type: string
+                description: Диапазон горимости
+                example: [0, ∞]
+              precipitation:
+                type: integer
+                description: Кол-во осадков для сброса
+                example: 3
+    FFWIWeatherParamDto:
+      description: Представление погодного параметра с параметром, связывающим формулу
+      properties:
+        id:
+          type: string
+          description: ID погодного параметра
+          example: 2a3c6c0e-2d26-49fb-ab45-55a3e703cace
+        weatherName:
+          type: string
+          description: Название погодного условия
+          example: Температура воздуха
+        formulaParameter:
+          type: string
+          description: Название параметра в формуле
+          example: $T_d
+    FFWICreateRequestDto:
+      description: DTO для создания КППО
+      required:
+        - name
+        - formula
+        - weatherDataIds
+      properties:
+        name:
+          type: string
+          description: Название КППО
+          example: КППО Свердловой
+        formula:
+          type: string
+          description: Формула определения КП
+          example: ($T_d - $T_0) * $T_d
+        weatherDataParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/FFWIWeatherParamDto'
+
+
+    # DTO для пользователя
+    UserCreateDto:
+      type: object
+      description: DTO для создания пользователя
+      required:
+        - registrationCode
+        - login
+        - password
+        - email
+      properties:
+        registrationCode:
+          type: string
+          description: Код регистрации пользователя
+          format: uuid
+          example: 7894a71a-0c58-4ee0-9ed7-283ae4ce54ae
+        login:
+          type: string
+          description: Логин пользователя
+          example: tcvetkov.so
+        password:
+          type: string
+          description: Пароль пользователя
+          example: $omeP@ssw0rd
+        email:
+          type: string
+          description: Email адрес пользователя
+          format: email
+          example: tsvetkov@so@dvfu.ru
+    UserLoginDto:
+      type: object
+      description: DTO для логина пользователя
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          description: Логин или почта пользователя
+          example: tcvetkov.so
+        password:
+          type: string
+          description: Пароль пользователя
+          example: $omeP@ssw0rd

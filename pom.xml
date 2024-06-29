@@ -126,6 +126,7 @@
                                 <openApiNullable>false</openApiNullable>
                                 <useSpringBoot3>true</useSpringBoot3>
                                 <useTags>true</useTags>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                             </configOptions>
                         </configuration>

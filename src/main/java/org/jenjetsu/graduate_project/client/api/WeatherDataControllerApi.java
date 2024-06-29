@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-06-25T12:23:41.391355525+10:00[Asia/Vladivostok]", comments = "Generator version: 7.5.0")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0")
 @Validated
 @Tag(name = "WeatherDataController", description = "Контроллер для работы с погодными условиями")
 public interface WeatherDataControllerApi {
