@@ -648,6 +648,317 @@ paths:
                     message: Произошла ошибка на стороне сервера
                     code: 500
 
+  /api/v1/fire-weather-indexes:
+    get:
+      tags:
+        - FWIController
+      summary: Получить весь список
+      description: Получение всего списка по КПО для отображения
+      operationId: getAll
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FWIResponseDto'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+    post:
+      tags:
+        - FWIController
+      summary: Добавть запись
+      description: Добавление новой записи по КПО в БД
+      operationId: createFwi
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FFWICreateDto'
+      responses:
+        '200':
+          description: Успешное добавление КПО
+        '400':
+          description: Ошибка в составлении запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример неправильного запроса
+                  value:
+                    message: Название КПО не соответствует формату
+                    code: 400
+                example2:
+                  description: Нижняя граница выше верхней
+                  value:
+                    message: Нижняя граница выше верхней
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '403':
+          description: Пользователю не хватает прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Недостаточно прав для выполнения операции
+                    code: 403
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+    patch:
+      tags:
+        - FWIController
+      summary: Обновить запись
+      description: Обновление информации по КПО
+      operationId: updateFwi
+      requestBody:
+        required: true
+        content:
+          applicaton/json:
+            schema:
+              $ref: '#/components/schemas/FWIResponseDto'
+      responses:
+        '200':
+          description: Успешное обновление записи
+        '400':
+          description: Ошибка в составлении запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример неправильного запроса
+                  value:
+                    message: Название КПО не соответствует формату
+                    code: 400
+                example2:
+                  description: Нижняя граница выше верхней
+                  value:
+                    message: Нижняя граница выше верхней
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '403':
+          description: Пользователю не хватает прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Недостаточно прав для выполнения операции
+                    code: 403
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+  /api/v1/fire-weather-indexes/{id}:
+    parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+          format: uuid
+          description: ID КППО
+    get:
+      tags:
+        - FWIController
+      summary: Получение конкретной записи
+      description: Получение конкретной записи об КПО
+      operationId: getById
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FWIResponseDto'
+        '400':
+          description: Отсутствие id в запросе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Отсутствует параметр id в запросе
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '404':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: КПО не был найден в БД
+                  value:
+                    message: Запись о КПО 1993dbee-eb94-46cb-aa9d-5b166b1c6659 нет в системе
+                    code: 404
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+    delete:
+      tags:
+        - FWIController
+      summary: Удалить запись
+      description: Удаление записи по КПО
+      operationId: deleteById
+      responses:
+        '200':
+          description: Успешное выполнение запроса
+        '400':
+          description: Отсутствие id в запросе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Отсутствует параметр id в запросе
+                    code: 400
+                example2:
+                  description: Пример ответа 2
+                  value:
+                    message: КППО связан с другими записями
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '404':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: КПО не был найден в БД
+                  value:
+                    message: Запись о КПО 1993dbee-eb94-46cb-aa9d-5b166b1c6659 нет в системе
+                    code: 404
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+
+
+
   /api/v1/users/login:
     post:
       tags:
@@ -752,7 +1063,6 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    # DTO для погодных параметров
     ApiExceptionDto:
       type: object
       description: ДТО для ответа с ошибкой
@@ -766,6 +1076,7 @@ components:
         code:
           type: integer
           format: int32
+    # DTO для погодных параметров
     WeatherDataDto:
       type: object
       required:
@@ -865,6 +1176,66 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FFWIWeatherParamDto'
+    #DTO для КПО
+    FWIResponseDto:
+      description: DTO представление КПО в приложении
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 12efb6fa-72b7-455e-87c2-872d24d1f22d
+        name:
+          type: string
+          example: КПО_Нестерова_1
+        minValue:
+          type: number
+          description: нижняя граница горммости
+          minimum: 0
+          example: 0
+        maxValue:
+          type: number
+          description: верхняя граница горимости
+          minimum: 0
+          example: 1000
+        fireDangerName:
+          type: string
+          description: Имя уровня пожарной угрозы
+          example: Незначительный
+        ffwiName:
+          type: string
+          description: Название КППО
+          example: КППО_Нестерова
+    FFWICreateDto:
+      required:
+        - name
+        - minValue
+        - maxValue
+        - ffwiId
+        - dangerId
+      properties:
+        name:
+          type: string
+          example: КПО_Нестерова_1
+        minValue:
+          type: number
+          description: нижняя граница горммости
+          minimum: 0
+          example: 0
+        maxValue:
+          type: number
+          description: верхняя граница горимости
+          minimum: 0
+          example: 1000
+        fireDangerId:
+          type: string
+          format: uuid
+          description: Id пожарной угрозы
+          example: 1
+        ffwiId:
+          type: string
+          format: uuid
+          description: ID КППО
+          example: 9d21406b-9673-408d-98dc-afb8f49683b3
 
 
     # DTO для пользователя
