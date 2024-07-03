@@ -33,6 +33,13 @@ public class FFWIControllerApiImpl implements FfwiControllerApi {
     }
 
     @Override
+    public ResponseEntity<Void> deleteFfwiById(UUID id) {
+        ffwiService.deleteById(id);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @Override
     public ResponseEntity<List<FFWIResponseDto>> getAllFfwi() {
         var ffwis = ffwiService.findAllFetchSubEntities();
 
@@ -48,6 +55,15 @@ public class FFWIControllerApiImpl implements FfwiControllerApi {
         var dto = modelMapper.map(ffwi, FFWIResponseDto.class);
 
         return ResponseEntity.ok(dto);
+    }
+
+    @Override
+    public ResponseEntity<Void> patchFfwi(FFWIResponseDto ffWIResponseDto) {
+        var newFfwi = modelMapper.map(ffWIResponseDto, FFWI.class);
+
+        ffwiService.update(newFfwi);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

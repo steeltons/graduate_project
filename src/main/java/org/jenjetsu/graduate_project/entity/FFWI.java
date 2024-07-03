@@ -25,10 +25,10 @@ public class FFWI {
 
     @Column(name = "name", nullable = false, unique = true)
     @Length(min = 4, max = 32, message = "Размер строки не подходит")
-    @Pattern(regexp = "[а-яА-Я][а-яА-Я\\s]{2,31}", message = "Шаблон строки не совпадает")
+//    @Pattern(regexp = "[а-яА-Я][а-яА-Я\\s]{2,31}", message = "Шаблон строки не совпадает")
     private String name;
 
-    @ValidFormula
+//    @ValidFormula
     @Column(name = "formula", nullable = false, length = 512)
     private String formula;
 

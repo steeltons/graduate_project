@@ -447,6 +447,74 @@ paths:
                   value:
                     message: Произошла ошибка на стороне сервера
                     code: 500
+    patch:
+      tags:
+        - FFWIController
+      summary: Обновить информацию о КППО
+      description: Обновление информации о КППО и связанных с ним сущностях
+      operationId: patchFfwi
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FFWIResponseDto'
+      responses:
+        '204':
+          description: Успешный запрос
+        '400':
+          description: Ошибка в составлении запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример неправильного запроса
+                  value:
+                    message: Название КППО не соответствует формату
+                    code: 400
+                example2:
+                  description: Формула не соответствует грамматике
+                  value:
+                    message: Формула не соответствует грамматике
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '403':
+          description: Пользователю не хватает прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Недостаточно прав для выполнения операции
+                    code: 403
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
   /api/v1/fire-forecase-indexes/{id}:
     parameters:
       - name: id
@@ -480,6 +548,68 @@ paths:
                   description: Пример ответа
                   value:
                     message: Отсутствует параметр id в запросе
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '404':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: КППО не был найден в БД
+                  value:
+                    message: Запись о КППО 1993dbee-eb94-46cb-aa9d-5b166b1c6659 нет в системе
+                    code: 404
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+    delete:
+      tags:
+        - FFWIController
+      summary: Удалние КППО по id
+      description: Удаление информации об КППО по id
+      operationId: deleteFfwiById
+      responses:
+        '200':
+          description: Успешное выполнение запроса
+        '400':
+          description: Отсутствие id в запросе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Отсутствует параметр id в запросе
+                    code: 400
+                example2:
+                  description: Пример ответа 2
+                  value:
+                    message: КППО связан с другими записями
                     code: 400
         '401':
           description: Пользователь не авторизован
@@ -681,6 +811,10 @@ components:
           type: string
           description: Список названий КПО, придлежащих КППО
           example: КПО_Нестеров_1, КПО_Нестеров_2, КПО_Нестеров_3
+        weatherParams:
+          type: array
+          items:
+            $ref: '#/components/schemas/FFWIWeatherParamDto'
         precipitationTableParams:
           type: array
           items:

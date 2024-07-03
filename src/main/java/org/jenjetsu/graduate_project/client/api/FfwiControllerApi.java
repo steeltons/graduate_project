@@ -85,6 +85,49 @@ public interface FfwiControllerApi {
 
 
     /**
+     * DELETE /api/v1/fire-forecase-indexes/{id} : Удалние КППО по id
+     * Удаление информации об КППО по id
+     *
+     * @param id  (required)
+     * @return Успешное выполнение запроса (status code 200)
+     *         or Отсутствие id в запросе (status code 400)
+     *         or Пользователь не авторизован (status code 401)
+     *         or Пользователь не авторизован (status code 404)
+     *         or Ошибка на сервере (status code 500)
+     */
+    @Operation(
+        operationId = "deleteFfwiById",
+        summary = "Удалние КППО по id",
+        description = "Удаление информации об КППО по id",
+        tags = { "FFWIController" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Успешное выполнение запроса"),
+            @ApiResponse(responseCode = "400", description = "Отсутствие id в запросе", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "Пользователь не авторизован", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Пользователь не авторизован", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Ошибка на сервере", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.DELETE,
+        value = "/api/v1/fire-forecase-indexes/{id}",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<Void> deleteFfwiById(
+        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id
+    );
+
+
+    /**
      * GET /api/v1/fire-forecast-indexes : Endpoint для получения всей информации об КППО
      * Получение списка КППО для отображения на странице
      *
@@ -167,6 +210,50 @@ public interface FfwiControllerApi {
     
     ResponseEntity<FFWIResponseDto> getFfwiById(
         @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id
+    );
+
+
+    /**
+     * PATCH /api/v1/fire-forecast-indexes : Обновить информацию о КППО
+     * Обновление информации о КППО и связанных с ним сущностях
+     *
+     * @param ffWIResponseDto  (required)
+     * @return Успешный запрос (status code 204)
+     *         or Ошибка в составлении запроса (status code 400)
+     *         or Пользователь не авторизован (status code 401)
+     *         or Пользователю не хватает прав (status code 403)
+     *         or Ошибка на сервере (status code 500)
+     */
+    @Operation(
+        operationId = "patchFfwi",
+        summary = "Обновить информацию о КППО",
+        description = "Обновление информации о КППО и связанных с ним сущностях",
+        tags = { "FFWIController" },
+        responses = {
+            @ApiResponse(responseCode = "204", description = "Успешный запрос"),
+            @ApiResponse(responseCode = "400", description = "Ошибка в составлении запроса", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "Пользователь не авторизован", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            }),
+            @ApiResponse(responseCode = "403", description = "Пользователю не хватает прав", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Ошибка на сервере", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.PATCH,
+        value = "/api/v1/fire-forecast-indexes",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    
+    ResponseEntity<Void> patchFfwi(
+        @Parameter(name = "FFWIResponseDto", description = "", required = true) @Valid @RequestBody FFWIResponseDto ffWIResponseDto
     );
 
 }
