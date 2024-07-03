@@ -8,6 +8,7 @@ package org.jenjetsu.graduate_project.client.api;
 import org.jenjetsu.graduate_project.client.model.ApiExceptionDto;
 import org.jenjetsu.graduate_project.client.model.FFWICreateRequestDto;
 import org.jenjetsu.graduate_project.client.model.FFWIResponseDto;
+import java.util.UUID;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -116,6 +117,56 @@ public interface FfwiControllerApi {
     
     ResponseEntity<List<FFWIResponseDto>> getAllFfwi(
         
+    );
+
+
+    /**
+     * GET /api/v1/fire-forecase-indexes/{id} : Получить КППО по id
+     * получение КППО по id
+     *
+     * @param id  (required)
+     * @return Успешный ответ (status code 200)
+     *         or Отсутствие id в запросе (status code 400)
+     *         or Пользователь не авторизован (status code 401)
+     *         or Пользователь не авторизован (status code 404)
+     *         or Ошибка на сервере (status code 500)
+     */
+    @Operation(
+        operationId = "getFfwiById",
+        summary = "Получить КППО по id",
+        description = "получение КППО по id",
+        tags = { "FFWIController" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Успешный ответ", content = {
+                @Content(mediaType = "appplication/json", schema = @Schema(implementation = FFWIResponseDto.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = FFWIResponseDto.class))
+            }),
+            @ApiResponse(responseCode = "400", description = "Отсутствие id в запросе", content = {
+                @Content(mediaType = "appplication/json", schema = @Schema(implementation = ApiExceptionDto.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "Пользователь не авторизован", content = {
+                @Content(mediaType = "appplication/json", schema = @Schema(implementation = ApiExceptionDto.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Пользователь не авторизован", content = {
+                @Content(mediaType = "appplication/json", schema = @Schema(implementation = ApiExceptionDto.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Ошибка на сервере", content = {
+                @Content(mediaType = "appplication/json", schema = @Schema(implementation = ApiExceptionDto.class)),
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/api/v1/fire-forecase-indexes/{id}",
+        produces = { "appplication/json", "application/json" }
+    )
+    
+    ResponseEntity<FFWIResponseDto> getFfwiById(
+        @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH) @PathVariable("id") UUID id
     );
 
 }

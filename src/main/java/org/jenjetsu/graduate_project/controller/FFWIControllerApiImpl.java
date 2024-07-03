@@ -41,4 +41,13 @@ public class FFWIControllerApiImpl implements FfwiControllerApi {
         return ResponseEntity.ok(dtos);
     }
 
+    @Override
+    public ResponseEntity<FFWIResponseDto> getFfwiById(UUID id) {
+        var ffwi = ffwiService.readById(id);
+
+        var dto = modelMapper.map(ffwi, FFWIResponseDto.class);
+
+        return ResponseEntity.ok(dto);
+    }
+
 }

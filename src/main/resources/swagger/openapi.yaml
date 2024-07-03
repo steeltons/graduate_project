@@ -447,6 +447,76 @@ paths:
                   value:
                     message: Произошла ошибка на стороне сервера
                     code: 500
+  /api/v1/fire-forecase-indexes/{id}:
+    parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+          format: uuid
+          description: ID КППО
+    get:
+      tags:
+        - FFWIController
+      summary: Получить КППО по id
+      description: получение КППО по id
+      operationId: getFfwiById
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            appplication/json:
+              schema:
+                $ref: '#/components/schemas/FFWIResponseDto'
+        '400':
+          description: Отсутствие id в запросе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Отсутствует параметр id в запросе
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '404':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: КППО не был найден в БД
+                  value:
+                    message: Запись о КППО 1993dbee-eb94-46cb-aa9d-5b166b1c6659 нет в системе
+                    code: 404
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
 
   /api/v1/users/login:
     post:
