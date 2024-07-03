@@ -5,6 +5,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -22,48 +23,70 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0")
 public class FFWIResponseDtoPrecipitationTableParamsInner {
 
-  private String fireRange;
+  private BigDecimal minValue;
 
-  private Integer precipitation;
+  private BigDecimal maxValue;
 
-  public FFWIResponseDtoPrecipitationTableParamsInner fireRange(String fireRange) {
-    this.fireRange = fireRange;
+  private Integer value;
+
+  public FFWIResponseDtoPrecipitationTableParamsInner minValue(BigDecimal minValue) {
+    this.minValue = minValue;
     return this;
   }
 
   /**
-   * Диапазон горимости
-   * @return fireRange
+   * Нижняя граница горимости
+   * @return minValue
   */
-  
-  @Schema(name = "fireRange", example = "[0,\"∞\"]", description = "Диапазон горимости", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("fireRange")
-  public String getFireRange() {
-    return fireRange;
+  @Valid 
+  @Schema(name = "minValue", example = "0", description = "Нижняя граница горимости", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("minValue")
+  public BigDecimal getMinValue() {
+    return minValue;
   }
 
-  public void setFireRange(String fireRange) {
-    this.fireRange = fireRange;
+  public void setMinValue(BigDecimal minValue) {
+    this.minValue = minValue;
   }
 
-  public FFWIResponseDtoPrecipitationTableParamsInner precipitation(Integer precipitation) {
-    this.precipitation = precipitation;
+  public FFWIResponseDtoPrecipitationTableParamsInner maxValue(BigDecimal maxValue) {
+    this.maxValue = maxValue;
+    return this;
+  }
+
+  /**
+   * Верхняя граница горимости
+   * @return maxValue
+  */
+  @Valid 
+  @Schema(name = "maxValue", description = "Верхняя граница горимости", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("maxValue")
+  public BigDecimal getMaxValue() {
+    return maxValue;
+  }
+
+  public void setMaxValue(BigDecimal maxValue) {
+    this.maxValue = maxValue;
+  }
+
+  public FFWIResponseDtoPrecipitationTableParamsInner value(Integer value) {
+    this.value = value;
     return this;
   }
 
   /**
    * Кол-во осадков для сброса
-   * @return precipitation
+   * @return value
   */
   
-  @Schema(name = "precipitation", example = "3", description = "Кол-во осадков для сброса", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("precipitation")
-  public Integer getPrecipitation() {
-    return precipitation;
+  @Schema(name = "value", example = "3", description = "Кол-во осадков для сброса", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("value")
+  public Integer getValue() {
+    return value;
   }
 
-  public void setPrecipitation(Integer precipitation) {
-    this.precipitation = precipitation;
+  public void setValue(Integer value) {
+    this.value = value;
   }
 
   @Override
@@ -75,21 +98,23 @@ public class FFWIResponseDtoPrecipitationTableParamsInner {
       return false;
     }
     FFWIResponseDtoPrecipitationTableParamsInner ffWIResponseDtoPrecipitationTableParamsInner = (FFWIResponseDtoPrecipitationTableParamsInner) o;
-    return Objects.equals(this.fireRange, ffWIResponseDtoPrecipitationTableParamsInner.fireRange) &&
-        Objects.equals(this.precipitation, ffWIResponseDtoPrecipitationTableParamsInner.precipitation);
+    return Objects.equals(this.minValue, ffWIResponseDtoPrecipitationTableParamsInner.minValue) &&
+        Objects.equals(this.maxValue, ffWIResponseDtoPrecipitationTableParamsInner.maxValue) &&
+        Objects.equals(this.value, ffWIResponseDtoPrecipitationTableParamsInner.value);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(fireRange, precipitation);
+    return Objects.hash(minValue, maxValue, value);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FFWIResponseDtoPrecipitationTableParamsInner {\n");
-    sb.append("    fireRange: ").append(toIndentedString(fireRange)).append("\n");
-    sb.append("    precipitation: ").append(toIndentedString(precipitation)).append("\n");
+    sb.append("    minValue: ").append(toIndentedString(minValue)).append("\n");
+    sb.append("    maxValue: ").append(toIndentedString(maxValue)).append("\n");
+    sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");
     return sb.toString();
   }

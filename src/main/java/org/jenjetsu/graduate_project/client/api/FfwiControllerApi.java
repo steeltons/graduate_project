@@ -98,7 +98,7 @@ public interface FfwiControllerApi {
         tags = { "FFWIController" },
         responses = {
             @ApiResponse(responseCode = "200", description = "Успешный ответ на запрос", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = FFWIResponseDto.class))
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = FFWIResponseDto.class)))
             }),
             @ApiResponse(responseCode = "401", description = "Пользователь не авторизован", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
@@ -114,7 +114,7 @@ public interface FfwiControllerApi {
         produces = { "application/json" }
     )
     
-    ResponseEntity<FFWIResponseDto> getAllFfwi(
+    ResponseEntity<List<FFWIResponseDto>> getAllFfwi(
         
     );
 

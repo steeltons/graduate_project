@@ -74,7 +74,7 @@ public class FFWICreateRequestDto {
    * @return formula
   */
   @NotNull 
-  @Schema(name = "formula", example = "($T_d - $T_0) * $T_d", description = "Формула определения КП", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "formula", description = "Формула определения КП", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("formula")
   public String getFormula() {
     return formula;

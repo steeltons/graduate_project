@@ -9,4 +9,15 @@ import org.springframework.stereotype.*;
 @Repository
 public interface FFWIRepository extends JpaRepository<FFWI, UUID> {
 
+    @Query(
+        value = """
+            SELECT f
+            FROM ffwi f
+            JOIN FETCH f.fwiSet
+            JOIN FETCH f.weatherParams
+            JOIN FETCH f.precipitationTables
+            """
+    )
+    public List<FFWI> findAllFetchSubEntities();
+
 }

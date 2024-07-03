@@ -9,7 +9,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.jenjetsu.graduate_project.client.model.FFWIResponseDtoPrecipitationTableParamsInner;
-import org.jenjetsu.graduate_project.client.model.FFWIWeatherParamDto;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -34,9 +33,6 @@ public class FFWIResponseDto {
   private String formula;
 
   private String fwis;
-
-  @Valid
-  private List<@Valid FFWIWeatherParamDto> weatherParams = new ArrayList<>();
 
   @Valid
   private List<@Valid FFWIResponseDtoPrecipitationTableParamsInner> precipitationTableParams = new ArrayList<>();
@@ -121,34 +117,6 @@ public class FFWIResponseDto {
     this.fwis = fwis;
   }
 
-  public FFWIResponseDto weatherParams(List<@Valid FFWIWeatherParamDto> weatherParams) {
-    this.weatherParams = weatherParams;
-    return this;
-  }
-
-  public FFWIResponseDto addWeatherParamsItem(FFWIWeatherParamDto weatherParamsItem) {
-    if (this.weatherParams == null) {
-      this.weatherParams = new ArrayList<>();
-    }
-    this.weatherParams.add(weatherParamsItem);
-    return this;
-  }
-
-  /**
-   * Get weatherParams
-   * @return weatherParams
-  */
-  @Valid 
-  @Schema(name = "weatherParams", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("weatherParams")
-  public List<@Valid FFWIWeatherParamDto> getWeatherParams() {
-    return weatherParams;
-  }
-
-  public void setWeatherParams(List<@Valid FFWIWeatherParamDto> weatherParams) {
-    this.weatherParams = weatherParams;
-  }
-
   public FFWIResponseDto precipitationTableParams(List<@Valid FFWIResponseDtoPrecipitationTableParamsInner> precipitationTableParams) {
     this.precipitationTableParams = precipitationTableParams;
     return this;
@@ -190,13 +158,12 @@ public class FFWIResponseDto {
         Objects.equals(this.name, ffWIResponseDto.name) &&
         Objects.equals(this.formula, ffWIResponseDto.formula) &&
         Objects.equals(this.fwis, ffWIResponseDto.fwis) &&
-        Objects.equals(this.weatherParams, ffWIResponseDto.weatherParams) &&
         Objects.equals(this.precipitationTableParams, ffWIResponseDto.precipitationTableParams);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ffwiId, name, formula, fwis, weatherParams, precipitationTableParams);
+    return Objects.hash(ffwiId, name, formula, fwis, precipitationTableParams);
   }
 
   @Override
@@ -207,7 +174,6 @@ public class FFWIResponseDto {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    formula: ").append(toIndentedString(formula)).append("\n");
     sb.append("    fwis: ").append(toIndentedString(fwis)).append("\n");
-    sb.append("    weatherParams: ").append(toIndentedString(weatherParams)).append("\n");
     sb.append("    precipitationTableParams: ").append(toIndentedString(precipitationTableParams)).append("\n");
     sb.append("}");
     return sb.toString();

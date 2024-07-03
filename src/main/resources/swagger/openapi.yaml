@@ -340,7 +340,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FFWIResponseDto'
+                type: array
+                items:
+                  $ref: '#/components/schemas/FFWIResponseDto'
         '401':
           description: Пользователь не авторизован
           content:
@@ -609,20 +611,20 @@ components:
           type: string
           description: Список названий КПО, придлежащих КППО
           example: КПО_Нестеров_1, КПО_Нестеров_2, КПО_Нестеров_3
-        weatherParams:
-          type: array
-          items:
-            $ref: '#/components/schemas/FFWIWeatherParamDto'
         precipitationTableParams:
           type: array
           items:
             type: object
             properties:
-              fireRange:
-                type: string
-                description: Диапазон горимости
-                example: [0, ∞]
-              precipitation:
+              minValue:
+                type: number
+                description: Нижняя граница горимости
+                example: 0
+              maxValue:
+                type: number
+                description: Верхняя граница горимости
+                example: infinity
+              value:
                 type: integer
                 description: Кол-во осадков для сброса
                 example: 3
@@ -655,7 +657,6 @@ components:
         formula:
           type: string
           description: Формула определения КП
-          example: ($T_d - $T_0) * $T_d
         weatherDataParams:
           type: array
           items:

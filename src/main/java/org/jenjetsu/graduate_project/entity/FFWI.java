@@ -36,6 +36,9 @@ public class FFWI {
     private Set<FWI> fwiSet;
 
     @OneToMany(mappedBy = "ffwi", fetch = FetchType.LAZY)
-    private Set<FFWIParameter> parameters;
+    private Set<FFWIParameter> weatherParams;
+
+    @OneToMany(mappedBy = "ffwi", fetch = FetchType.LAZY)
+    private Set<PrecipitationTable> precipitationTables;
 
 }
