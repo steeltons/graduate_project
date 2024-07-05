@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-import org.jenjetsu.graduate_project.client.model.FFWIResponseDtoPrecipitationTableParamsInner;
 import org.jenjetsu.graduate_project.client.model.FFWIWeatherParamDto;
+import org.jenjetsu.graduate_project.client.model.PrecipitationRecordResponseDto;
 import java.time.OffsetDateTime;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
@@ -39,7 +39,7 @@ public class FFWIResponseDto {
   private List<@Valid FFWIWeatherParamDto> weatherParams = new ArrayList<>();
 
   @Valid
-  private List<@Valid FFWIResponseDtoPrecipitationTableParamsInner> precipitationTableParams = new ArrayList<>();
+  private List<@Valid PrecipitationRecordResponseDto> precipitationRecords = new ArrayList<>();
 
   public FFWIResponseDto ffwiId(UUID ffwiId) {
     this.ffwiId = ffwiId;
@@ -149,32 +149,32 @@ public class FFWIResponseDto {
     this.weatherParams = weatherParams;
   }
 
-  public FFWIResponseDto precipitationTableParams(List<@Valid FFWIResponseDtoPrecipitationTableParamsInner> precipitationTableParams) {
-    this.precipitationTableParams = precipitationTableParams;
+  public FFWIResponseDto precipitationRecords(List<@Valid PrecipitationRecordResponseDto> precipitationRecords) {
+    this.precipitationRecords = precipitationRecords;
     return this;
   }
 
-  public FFWIResponseDto addPrecipitationTableParamsItem(FFWIResponseDtoPrecipitationTableParamsInner precipitationTableParamsItem) {
-    if (this.precipitationTableParams == null) {
-      this.precipitationTableParams = new ArrayList<>();
+  public FFWIResponseDto addPrecipitationRecordsItem(PrecipitationRecordResponseDto precipitationRecordsItem) {
+    if (this.precipitationRecords == null) {
+      this.precipitationRecords = new ArrayList<>();
     }
-    this.precipitationTableParams.add(precipitationTableParamsItem);
+    this.precipitationRecords.add(precipitationRecordsItem);
     return this;
   }
 
   /**
-   * Get precipitationTableParams
-   * @return precipitationTableParams
+   * Get precipitationRecords
+   * @return precipitationRecords
   */
   @Valid 
-  @Schema(name = "precipitationTableParams", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("precipitationTableParams")
-  public List<@Valid FFWIResponseDtoPrecipitationTableParamsInner> getPrecipitationTableParams() {
-    return precipitationTableParams;
+  @Schema(name = "precipitationRecords", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("precipitationRecords")
+  public List<@Valid PrecipitationRecordResponseDto> getPrecipitationRecords() {
+    return precipitationRecords;
   }
 
-  public void setPrecipitationTableParams(List<@Valid FFWIResponseDtoPrecipitationTableParamsInner> precipitationTableParams) {
-    this.precipitationTableParams = precipitationTableParams;
+  public void setPrecipitationRecords(List<@Valid PrecipitationRecordResponseDto> precipitationRecords) {
+    this.precipitationRecords = precipitationRecords;
   }
 
   @Override
@@ -191,12 +191,12 @@ public class FFWIResponseDto {
         Objects.equals(this.formula, ffWIResponseDto.formula) &&
         Objects.equals(this.fwis, ffWIResponseDto.fwis) &&
         Objects.equals(this.weatherParams, ffWIResponseDto.weatherParams) &&
-        Objects.equals(this.precipitationTableParams, ffWIResponseDto.precipitationTableParams);
+        Objects.equals(this.precipitationRecords, ffWIResponseDto.precipitationRecords);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ffwiId, name, formula, fwis, weatherParams, precipitationTableParams);
+    return Objects.hash(ffwiId, name, formula, fwis, weatherParams, precipitationRecords);
   }
 
   @Override
@@ -208,7 +208,7 @@ public class FFWIResponseDto {
     sb.append("    formula: ").append(toIndentedString(formula)).append("\n");
     sb.append("    fwis: ").append(toIndentedString(fwis)).append("\n");
     sb.append("    weatherParams: ").append(toIndentedString(weatherParams)).append("\n");
-    sb.append("    precipitationTableParams: ").append(toIndentedString(precipitationTableParams)).append("\n");
+    sb.append("    precipitationRecords: ").append(toIndentedString(precipitationRecords)).append("\n");
     sb.append("}");
     return sb.toString();
   }

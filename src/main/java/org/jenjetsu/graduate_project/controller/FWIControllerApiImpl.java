@@ -20,8 +20,8 @@ public class FWIControllerApiImpl implements FwiControllerApi {
     private final ModelMapper modelMapper;
 
     @Override
-    public ResponseEntity<Void> createFwi(FFWICreateDto ffWICreateDto) {
-        var rawFwi = modelMapper.map(ffWICreateDto, FWI.class);
+    public ResponseEntity<Void> createFwi(FWICreateDto fwICreateDto) {
+        var rawFwi = modelMapper.map(fwICreateDto, FWI.class);
 
         fwiService.create(rawFwi);
 
@@ -54,8 +54,8 @@ public class FWIControllerApiImpl implements FwiControllerApi {
     }
 
     @Override
-    public ResponseEntity<Void> updateFwi(FWIResponseDto fwIResponseDto) {
-        var fwi = modelMapper.map(fwIResponseDto, FWI.class);
+    public ResponseEntity<Void> updateFwi(FWIUpdateDto fwIUpdateDto) {
+        var fwi = modelMapper.map(fwIUpdateDto, FWI.class);
 
         fwiService.update(fwi);
 

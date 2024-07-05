@@ -6,8 +6,9 @@
 package org.jenjetsu.graduate_project.client.api;
 
 import org.jenjetsu.graduate_project.client.model.ApiExceptionDto;
-import org.jenjetsu.graduate_project.client.model.FFWICreateDto;
+import org.jenjetsu.graduate_project.client.model.FWICreateDto;
 import org.jenjetsu.graduate_project.client.model.FWIResponseDto;
+import org.jenjetsu.graduate_project.client.model.FWIUpdateDto;
 import java.util.UUID;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +45,7 @@ public interface FwiControllerApi {
      * POST /api/v1/fire-weather-indexes : Добавть запись
      * Добавление новой записи по КПО в БД
      *
-     * @param ffWICreateDto  (required)
+     * @param fwICreateDto  (required)
      * @return Успешное добавление КПО (status code 200)
      *         or Ошибка в составлении запроса (status code 400)
      *         or Пользователь не авторизован (status code 401)
@@ -80,7 +81,7 @@ public interface FwiControllerApi {
     )
     
     ResponseEntity<Void> createFwi(
-        @Parameter(name = "FFWICreateDto", description = "", required = true) @Valid @RequestBody FFWICreateDto ffWICreateDto
+        @Parameter(name = "FWICreateDto", description = "", required = true) @Valid @RequestBody FWICreateDto fwICreateDto
     );
 
 
@@ -212,7 +213,7 @@ public interface FwiControllerApi {
      * PATCH /api/v1/fire-weather-indexes : Обновить запись
      * Обновление информации по КПО
      *
-     * @param fwIResponseDto  (required)
+     * @param fwIUpdateDto  (required)
      * @return Успешное обновление записи (status code 200)
      *         or Ошибка в составлении запроса (status code 400)
      *         or Пользователь не авторизован (status code 401)
@@ -248,7 +249,7 @@ public interface FwiControllerApi {
     )
     
     ResponseEntity<Void> updateFwi(
-        @Parameter(name = "FWIResponseDto", description = "", required = true) @Valid @RequestBody FWIResponseDto fwIResponseDto
+        @Parameter(name = "FWIUpdateDto", description = "", required = true) @Valid @RequestBody FWIUpdateDto fwIUpdateDto
     );
 
 }

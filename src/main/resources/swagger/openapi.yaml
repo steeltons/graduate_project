@@ -699,7 +699,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FFWICreateDto'
+              $ref: '#/components/schemas/FWICreateDto'
       responses:
         '200':
           description: Успешное добавление КПО
@@ -767,7 +767,7 @@ paths:
         content:
           applicaton/json:
             schema:
-              $ref: '#/components/schemas/FWIResponseDto'
+              $ref: '#/components/schemas/FWIUpdateDto'
       responses:
         '200':
           description: Успешное обновление записи
@@ -1413,23 +1413,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FFWIWeatherParamDto'
-        precipitationTableParams:
+        precipitationRecords:
           type: array
           items:
-            type: object
-            properties:
-              minValue:
-                type: number
-                description: Нижняя граница горимости
-                example: 0
-              maxValue:
-                type: number
-                description: Верхняя граница горимости
-                example: infinity
-              value:
-                type: integer
-                description: Кол-во осадков для сброса
-                example: 3
+            $ref: '#/components/schemas/PrecipitationRecordResponseDto'
     FFWIWeatherParamDto:
       description: Представление погодного параметра с параметром, связывающим формулу
       properties:
@@ -1492,7 +1479,7 @@ components:
           type: string
           description: Название КППО
           example: КППО_Нестерова
-    FFWICreateDto:
+    FWICreateDto:
       required:
         - name
         - minValue
@@ -1523,6 +1510,27 @@ components:
           format: uuid
           description: ID КППО
           example: 9d21406b-9673-408d-98dc-afb8f49683b3
+    FWIUpdateDto:
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 12efb6fa-72b7-455e-87c2-872d24d1f22d
+        name:
+          type: string
+          example: КПО_Нестерова_1
+        minValue:
+          type: number
+          description: нижняя граница горммости
+          minimum: 0
+          example: 0
+        maxValue:
+          type: number
+          description: верхняя граница горимости
+          minimum: 0
+          example: 1000
     # DTO для таблицы осадков
     PrecipitationRecordResponseDto:
       properties:
