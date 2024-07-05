@@ -832,7 +832,7 @@ paths:
         schema:
           type: string
           format: uuid
-          description: ID КППО
+          description: ID КПО
     get:
       tags:
         - FWIController
@@ -957,6 +957,293 @@ paths:
                     message: Произошла ошибка на стороне сервера
                     code: 500
 
+  /api/v1/precipitation-records:
+    get:
+      tags:
+        - PrecipitationRecordController
+      summary: Получить записи по таблице осадков
+      description: Получение всех записей таблицы осадков
+      operationId: getPrecipitationRecords
+      responses:
+        '200':
+          description: Успешное получение всех записей
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PrecipitationRecordResponseDto'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+    post:
+      tags:
+        - PrecipitationRecordController
+      summary: Добавить запись по таблице осадков
+      description: Добавление новой записи по природному осадку в БД
+      operationId: addPrecipitationRecord
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrecipitationRecordCreateDto'
+      responses:
+        '201':
+          description: Успешное добавление записи
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrecipitationRecordResponseDto'
+        '400':
+          description: Ошибка в составлении запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример неправильного запроса
+                  value:
+                    message: Минимальная граница больше максимальной
+                    code: 400
+                example2:
+                  description: Пример неправильного запроса
+                  value:
+                    message: Отрицательное значение в кол-ве осадков
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '403':
+          description: Пользователю не хватает прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Недостаточно прав для выполнения операции
+                    code: 403
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+    patch:
+      tags:
+        - PrecipitationRecordController
+      summary: Обновить запись по осадкам
+      description: Измененение минимальной, максимальной границы и кол-во осадков
+      operationId: patchRecord
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PrecipitationRecordUpdateDto'
+      responses:
+        '200':
+          description: Успешное обновление записи
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrecipitationRecordResponseDto'
+        '400':
+          description: Ошибка в составлении запроса
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример неправильного запроса
+                  value:
+                    message: Минимальная граница больше максимальной
+                    code: 400
+                example2:
+                  description: Пример неправильного запроса
+                  value:
+                    message: Отрицательное значение в кол-ве осадков
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '403':
+          description: Пользователю не хватает прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Недостаточно прав для выполнения операции
+                    code: 403
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+  /api/v1/precipitation-records/{id}:
+    parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: integer
+          format: int64
+          description: ID записи таблицы осадков
+    get:
+      tags:
+        - PrecipitationRecordController
+      summary: Получение конкретной записи
+      description: Всё равно меня никто не прочитает
+      operationId: getRecordById
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrecipitationRecordResponseDto'
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+    delete:
+      tags:
+        - PrecipitationRecordController
+      summary: Удалить запись
+      description: Удаление конкретной записи по id
+      operationId: deleteRecord
+      responses:
+        '200':
+          description: Успешное выполнение запроса
+        '400':
+          description: Отсутствие id в запросе
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Отсутствует параметр id в запросе
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '404':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: КПО не был найден в БД
+                  value:
+                    message: Запись об осадках с id 1 нет в системе
+                    code: 404
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
 
 
   /api/v1/users/login:
@@ -1176,7 +1463,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FFWIWeatherParamDto'
-    #DTO для КПО
+    # DTO для КПО
     FWIResponseDto:
       description: DTO представление КПО в приложении
       properties:
@@ -1236,7 +1523,78 @@ components:
           format: uuid
           description: ID КППО
           example: 9d21406b-9673-408d-98dc-afb8f49683b3
-
+    # DTO для таблицы осадков
+    PrecipitationRecordResponseDto:
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        minValue:
+          type: number
+          description: Минимальная граница горимости
+          example: 0
+        maxValue:
+          type: number
+          description: Максимальная граница горимости
+          example: 100000.0
+        value:
+          type: integer
+          description: Значение осадков в мм
+          example: 3
+        ffwiName:
+          type: string
+          description: Название КППО
+          example: КППО_Нестерова
+        ffwi_id:
+          type: string
+          format: uuid
+          description: ID КППО
+          example: 97b4e98f-6829-446a-aea7-8e7be17d56c9
+    PrecipitationRecordCreateDto:
+      required:
+        - minValue
+        - maxValue
+        - value
+        - ffwi_id
+      properties:
+        minValue:
+          type: number
+          description: Минимальная граница горимости
+          example: 0
+        maxValue:
+          type: number
+          description: Максимальная граница горимости
+          example: 100000.0
+        value:
+          type: integer
+          description: Значение осадков в мм
+          example: 3
+        ffwi_id:
+          type: string
+          format: uuid
+          description: ID КППО
+          example: 97b4e98f-6829-446a-aea7-8e7be17d56c9
+    PrecipitationRecordUpdateDto:
+      required:
+        - id
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        minValue:
+          type: number
+          description: Минимальная граница горимости
+          example: 0
+        maxValue:
+          type: number
+          description: Максимальная граница горимости
+          example: 100000.0
+        value:
+          type: integer
+          description: Значение осадков в мм
+          example: 3
 
     # DTO для пользователя
     UserCreateDto:
