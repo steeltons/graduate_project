@@ -44,7 +44,7 @@ public class PrecipitationRecordControllerApiImpl implements PrecipitationRecord
 
     @Override
     public ResponseEntity<List<PrecipitationRecordResponseDto>> getPrecipitationRecords() {
-        var records = precipitationService.readAll();
+        var records = precipitationService.readAllFetchFfwi();
         List<PrecipitationRecordResponseDto> dtos = modelMapper.map(records, GENERIC_LIST_TYPE);
 
         return ResponseEntity.ok(dtos);

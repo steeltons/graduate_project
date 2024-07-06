@@ -27,6 +27,9 @@ public class FFWIControllerApiImpl implements FfwiControllerApi {
     public ResponseEntity<Void> createFfwi(FFWICreateRequestDto dto) {
         FFWI ffwi = modelMapper.map(dto, FFWI.class);
 
+        ffwi.getPrecipitationRecords().forEach(table -> table.setFfwi(ffwi));
+        ffwi.getWeatherDataParams().forEach(param -> param.setFfwi(ffwi));
+
         ffwiService.create(ffwi);
 
         return ResponseEntity.status(HttpStatus.OK).build();

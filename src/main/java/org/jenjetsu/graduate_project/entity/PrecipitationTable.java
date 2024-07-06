@@ -29,7 +29,7 @@ public class PrecipitationTable {
     @Column(name = "value", nullable = false)
     private Integer value;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name = "ffwi_id")
     private FFWI ffwi;
 

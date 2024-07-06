@@ -1,6 +1,9 @@
 package org.jenjetsu.graduate_project.service.impl;
 
+import java.util.*;
+
 import org.jenjetsu.graduate_project.entity.*;
+import org.jenjetsu.graduate_project.repository.*;
 import org.jenjetsu.graduate_project.service.*;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.*;
@@ -9,8 +12,11 @@ import org.springframework.stereotype.*;
 public class PrecipitationRecordServiceImpl extends SimpleJpaService<PrecipitationTable, Long>
                                             implements PrecipitationRecordService {
 
-    public PrecipitationRecordServiceImpl(JpaRepository<PrecipitationTable, Long> jpaRepository) {
-        super(PrecipitationTable.class, jpaRepository);
+    private final PrecipitationRecordRepository precipitationRep;
+
+    public PrecipitationRecordServiceImpl(PrecipitationRecordRepository precipitationRep) {
+        super(PrecipitationTable.class, precipitationRep);
+        this.precipitationRep = precipitationRep;
     }
 
     @Override
@@ -27,6 +33,11 @@ public class PrecipitationRecordServiceImpl extends SimpleJpaService<Precipitati
         }
 
         return super.update(oldEntity);
+    }
+
+    @Override
+    public List<PrecipitationTable> readAllFetchFfwi() {
+        return precipitationRep.readAllFetchEverything();
     }
 
 }

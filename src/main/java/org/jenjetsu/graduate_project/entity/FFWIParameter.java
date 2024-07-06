@@ -16,11 +16,11 @@ public class FFWIParameter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name = "weather_data_id")
     private WeatherData  weatherData;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name = "ffwi_id")
     private FFWI ffwi;
 

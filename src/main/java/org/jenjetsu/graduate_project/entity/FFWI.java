@@ -4,11 +4,10 @@ import java.util.UUID;
 import java.util.*;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.persistence.CascadeType;
 import lombok.*;
 import org.hibernate.annotations.*;
 import org.hibernate.validator.constraints.*;
-import org.jenjetsu.graduate_project.entity.formula.*;
 
 @Getter
 @Setter
@@ -32,13 +31,16 @@ public class FFWI {
     @Column(name = "formula", nullable = false, length = 512)
     private String formula;
 
-    @OneToMany(mappedBy = "ffwi", fetch = FetchType.LAZY)
-    private Set<FWI> fwiSet;
+    @Builder.Default
+    @OneToMany(mappedBy = "ffwi", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<FWI> fwiSet = new HashSet<>();
 
-    @OneToMany(mappedBy = "ffwi", fetch = FetchType.LAZY)
-    private Set<FFWIParameter> weatherParams;
+    @Builder.Default
+    @OneToMany(mappedBy = "ffwi", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<FFWIParameter> weatherDataParams = new HashSet<>();
 
-    @OneToMany(mappedBy = "ffwi", fetch = FetchType.LAZY)
-    private Set<PrecipitationTable> precipitationTables;
+    @Builder.Default
+    @OneToMany(mappedBy = "ffwi", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<PrecipitationTable> precipitationRecords = new HashSet<>();
 
 }

@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.*;
 
 import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.*;
@@ -38,7 +39,7 @@ public class FWI {
     @DecimalMax(value = "1.7976931348623157E308", message = "Верхняя граница превышает значение Long")
     private BigDecimal maxValue;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.MERGE})
     @JoinColumn(name = "ffwi_id")
     private FFWI ffwi;
 

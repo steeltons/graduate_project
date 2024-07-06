@@ -28,7 +28,7 @@ public class FWICreateDto {
 
   private BigDecimal maxValue;
 
-  private UUID fireDangerId;
+  private Long fireDangerId;
 
   private UUID ffwiId;
 
@@ -108,7 +108,7 @@ public class FWICreateDto {
     this.maxValue = maxValue;
   }
 
-  public FWICreateDto fireDangerId(UUID fireDangerId) {
+  public FWICreateDto fireDangerId(Long fireDangerId) {
     this.fireDangerId = fireDangerId;
     return this;
   }
@@ -117,14 +117,14 @@ public class FWICreateDto {
    * Id пожарной угрозы
    * @return fireDangerId
   */
-  @Valid 
-  @Schema(name = "fireDangerId", description = "Id пожарной угрозы", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  
+  @Schema(name = "fireDangerId", example = "1", description = "Id пожарной угрозы", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
   @JsonProperty("fireDangerId")
-  public UUID getFireDangerId() {
+  public Long getFireDangerId() {
     return fireDangerId;
   }
 
-  public void setFireDangerId(UUID fireDangerId) {
+  public void setFireDangerId(Long fireDangerId) {
     this.fireDangerId = fireDangerId;
   }
 
@@ -138,7 +138,7 @@ public class FWICreateDto {
    * @return ffwiId
   */
   @NotNull @Valid 
-  @Schema(name = "ffwiId", example = "9d21406b-9673-408d-98dc-afb8f49683b3", description = "ID КППО", requiredMode = Schema.RequiredMode.REQUIRED)
+  @Schema(name = "ffwiId", description = "ID КППО", requiredMode = Schema.RequiredMode.REQUIRED)
   @JsonProperty("ffwiId")
   public UUID getFfwiId() {
     return ffwiId;

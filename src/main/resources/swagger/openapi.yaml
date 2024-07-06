@@ -14,6 +14,10 @@ tags:
     description: Контроллер для работы с классом пожарной опасности
   - name: UserController
     description: Контроллер для работы с пользователями
+  - name: PrecipitationRecordController
+    description: Контроллер для работы с таблицей осадков
+  - name: AppController
+    description: Различные api приложения, которые не попадают ни в один контроллер
 
 paths:
   /api/v1/weather-data:
@@ -1245,6 +1249,52 @@ paths:
                     message: Произошла ошибка на стороне сервера
                     code: 500
 
+  /api/v1/app-endpoints:
+    post:
+      tags:
+        - AppController
+      summary: Очитить базу данных
+      description: Полная очистка базы данных
+      responses:
+        '200':
+          description: Успешная очистка БД
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
+        '403':
+          description: Пользователю не хватает прав
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Недостаточно прав для выполнения операции
+                    code: 403
+        '500':
+          description: Ошибка на сервере
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                example1:
+                  description: Пример ответа на 500
+                  value:
+                    message: Произошла ошибка на стороне сервера
+                    code: 500
+
 
   /api/v1/users/login:
     post:
@@ -1392,7 +1442,7 @@ components:
     FFWIResponseDto:
       description: DTO представления КППО в приложении
       properties:
-        ffwiId:
+        id:
           type: string
           description: ID КППО
           format: uuid
@@ -1409,7 +1459,7 @@ components:
           type: string
           description: Список названий КПО, придлежащих КППО
           example: КПО_Нестеров_1, КПО_Нестеров_2, КПО_Нестеров_3
-        weatherParams:
+        weatherDataParams:
           type: array
           items:
             $ref: '#/components/schemas/FFWIWeatherParamDto'
@@ -1420,7 +1470,7 @@ components:
     FFWIWeatherParamDto:
       description: Представление погодного параметра с параметром, связывающим формулу
       properties:
-        id:
+        weatherDataId:
           type: string
           description: ID погодного параметра
           example: 2a3c6c0e-2d26-49fb-ab45-55a3e703cace
@@ -1501,15 +1551,15 @@ components:
           minimum: 0
           example: 1000
         fireDangerId:
-          type: string
-          format: uuid
+          type: integer
+          format: int64
           description: Id пожарной угрозы
           example: 1
         ffwiId:
           type: string
           format: uuid
           description: ID КППО
-          example: 9d21406b-9673-408d-98dc-afb8f49683b3
+          example: 1
     FWIUpdateDto:
       required:
         - id
@@ -1554,7 +1604,7 @@ components:
           type: string
           description: Название КППО
           example: КППО_Нестерова
-        ffwi_id:
+        ffwId:
           type: string
           format: uuid
           description: ID КППО

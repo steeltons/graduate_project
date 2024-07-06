@@ -22,7 +22,8 @@ public class FWIControllerApiImpl implements FwiControllerApi {
     @Override
     public ResponseEntity<Void> createFwi(FWICreateDto fwICreateDto) {
         var rawFwi = modelMapper.map(fwICreateDto, FWI.class);
-
+        rawFwi.setFfwi(FFWI.builder().id(fwICreateDto.getFfwiId()).build());
+        rawFwi.setFireDanger(FireDanger.builder().id(fwICreateDto.getFireDangerId()).build());
         fwiService.create(rawFwi);
 
         return ResponseEntity.ok(null);
@@ -37,7 +38,7 @@ public class FWIControllerApiImpl implements FwiControllerApi {
 
     @Override
     public ResponseEntity<List<FWIResponseDto>> getAll() {
-        var fwis = fwiService.readAll();
+        var fwis = fwiService.findAllFetchEverything();
 
         List dtos = modelMapper.map(fwis, new TypeToken<List<FWIResponseDto>>(){}.getType());
 

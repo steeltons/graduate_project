@@ -27,7 +27,7 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0")
 public class FFWIResponseDto {
 
-  private UUID ffwiId;
+  private UUID id;
 
   private String name;
 
@@ -36,29 +36,29 @@ public class FFWIResponseDto {
   private String fwis;
 
   @Valid
-  private List<@Valid FFWIWeatherParamDto> weatherParams = new ArrayList<>();
+  private List<@Valid FFWIWeatherParamDto> weatherDataParams = new ArrayList<>();
 
   @Valid
   private List<@Valid PrecipitationRecordResponseDto> precipitationRecords = new ArrayList<>();
 
-  public FFWIResponseDto ffwiId(UUID ffwiId) {
-    this.ffwiId = ffwiId;
+  public FFWIResponseDto id(UUID id) {
+    this.id = id;
     return this;
   }
 
   /**
    * ID КППО
-   * @return ffwiId
+   * @return id
   */
   @Valid 
-  @Schema(name = "ffwiId", example = "92eb322f-9fec-4f5c-adbf-008627ed271a", description = "ID КППО", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("ffwiId")
-  public UUID getFfwiId() {
-    return ffwiId;
+  @Schema(name = "id", example = "92eb322f-9fec-4f5c-adbf-008627ed271a", description = "ID КППО", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("id")
+  public UUID getId() {
+    return id;
   }
 
-  public void setFfwiId(UUID ffwiId) {
-    this.ffwiId = ffwiId;
+  public void setId(UUID id) {
+    this.id = id;
   }
 
   public FFWIResponseDto name(String name) {
@@ -121,32 +121,32 @@ public class FFWIResponseDto {
     this.fwis = fwis;
   }
 
-  public FFWIResponseDto weatherParams(List<@Valid FFWIWeatherParamDto> weatherParams) {
-    this.weatherParams = weatherParams;
+  public FFWIResponseDto weatherDataParams(List<@Valid FFWIWeatherParamDto> weatherDataParams) {
+    this.weatherDataParams = weatherDataParams;
     return this;
   }
 
-  public FFWIResponseDto addWeatherParamsItem(FFWIWeatherParamDto weatherParamsItem) {
-    if (this.weatherParams == null) {
-      this.weatherParams = new ArrayList<>();
+  public FFWIResponseDto addWeatherDataParamsItem(FFWIWeatherParamDto weatherDataParamsItem) {
+    if (this.weatherDataParams == null) {
+      this.weatherDataParams = new ArrayList<>();
     }
-    this.weatherParams.add(weatherParamsItem);
+    this.weatherDataParams.add(weatherDataParamsItem);
     return this;
   }
 
   /**
-   * Get weatherParams
-   * @return weatherParams
+   * Get weatherDataParams
+   * @return weatherDataParams
   */
   @Valid 
-  @Schema(name = "weatherParams", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("weatherParams")
-  public List<@Valid FFWIWeatherParamDto> getWeatherParams() {
-    return weatherParams;
+  @Schema(name = "weatherDataParams", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("weatherDataParams")
+  public List<@Valid FFWIWeatherParamDto> getWeatherDataParams() {
+    return weatherDataParams;
   }
 
-  public void setWeatherParams(List<@Valid FFWIWeatherParamDto> weatherParams) {
-    this.weatherParams = weatherParams;
+  public void setWeatherDataParams(List<@Valid FFWIWeatherParamDto> weatherDataParams) {
+    this.weatherDataParams = weatherDataParams;
   }
 
   public FFWIResponseDto precipitationRecords(List<@Valid PrecipitationRecordResponseDto> precipitationRecords) {
@@ -186,28 +186,28 @@ public class FFWIResponseDto {
       return false;
     }
     FFWIResponseDto ffWIResponseDto = (FFWIResponseDto) o;
-    return Objects.equals(this.ffwiId, ffWIResponseDto.ffwiId) &&
+    return Objects.equals(this.id, ffWIResponseDto.id) &&
         Objects.equals(this.name, ffWIResponseDto.name) &&
         Objects.equals(this.formula, ffWIResponseDto.formula) &&
         Objects.equals(this.fwis, ffWIResponseDto.fwis) &&
-        Objects.equals(this.weatherParams, ffWIResponseDto.weatherParams) &&
+        Objects.equals(this.weatherDataParams, ffWIResponseDto.weatherDataParams) &&
         Objects.equals(this.precipitationRecords, ffWIResponseDto.precipitationRecords);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ffwiId, name, formula, fwis, weatherParams, precipitationRecords);
+    return Objects.hash(id, name, formula, fwis, weatherDataParams, precipitationRecords);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FFWIResponseDto {\n");
-    sb.append("    ffwiId: ").append(toIndentedString(ffwiId)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    formula: ").append(toIndentedString(formula)).append("\n");
     sb.append("    fwis: ").append(toIndentedString(fwis)).append("\n");
-    sb.append("    weatherParams: ").append(toIndentedString(weatherParams)).append("\n");
+    sb.append("    weatherDataParams: ").append(toIndentedString(weatherDataParams)).append("\n");
     sb.append("    precipitationRecords: ").append(toIndentedString(precipitationRecords)).append("\n");
     sb.append("}");
     return sb.toString();

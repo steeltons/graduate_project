@@ -32,7 +32,7 @@ public class PrecipitationRecordResponseDto {
 
   private String ffwiName;
 
-  private UUID ffwiId;
+  private UUID ffwId;
 
   public PrecipitationRecordResponseDto id(Long id) {
     this.id = id;
@@ -134,24 +134,24 @@ public class PrecipitationRecordResponseDto {
     this.ffwiName = ffwiName;
   }
 
-  public PrecipitationRecordResponseDto ffwiId(UUID ffwiId) {
-    this.ffwiId = ffwiId;
+  public PrecipitationRecordResponseDto ffwId(UUID ffwId) {
+    this.ffwId = ffwId;
     return this;
   }
 
   /**
    * ID КППО
-   * @return ffwiId
+   * @return ffwId
   */
   @Valid 
-  @Schema(name = "ffwi_id", example = "97b4e98f-6829-446a-aea7-8e7be17d56c9", description = "ID КППО", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("ffwi_id")
-  public UUID getFfwiId() {
-    return ffwiId;
+  @Schema(name = "ffwId", example = "97b4e98f-6829-446a-aea7-8e7be17d56c9", description = "ID КППО", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("ffwId")
+  public UUID getFfwId() {
+    return ffwId;
   }
 
-  public void setFfwiId(UUID ffwiId) {
-    this.ffwiId = ffwiId;
+  public void setFfwId(UUID ffwId) {
+    this.ffwId = ffwId;
   }
 
   @Override
@@ -168,12 +168,12 @@ public class PrecipitationRecordResponseDto {
         Objects.equals(this.maxValue, precipitationRecordResponseDto.maxValue) &&
         Objects.equals(this.value, precipitationRecordResponseDto.value) &&
         Objects.equals(this.ffwiName, precipitationRecordResponseDto.ffwiName) &&
-        Objects.equals(this.ffwiId, precipitationRecordResponseDto.ffwiId);
+        Objects.equals(this.ffwId, precipitationRecordResponseDto.ffwId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, minValue, maxValue, value, ffwiName, ffwiId);
+    return Objects.hash(id, minValue, maxValue, value, ffwiName, ffwId);
   }
 
   @Override
@@ -185,7 +185,7 @@ public class PrecipitationRecordResponseDto {
     sb.append("    maxValue: ").append(toIndentedString(maxValue)).append("\n");
     sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("    ffwiName: ").append(toIndentedString(ffwiName)).append("\n");
-    sb.append("    ffwiId: ").append(toIndentedString(ffwiId)).append("\n");
+    sb.append("    ffwId: ").append(toIndentedString(ffwId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

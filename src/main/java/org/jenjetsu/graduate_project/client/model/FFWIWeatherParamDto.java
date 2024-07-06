@@ -21,30 +21,30 @@ import jakarta.annotation.Generated;
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0")
 public class FFWIWeatherParamDto {
 
-  private String id;
+  private String weatherDataId;
 
   private String weatherName;
 
   private String formulaParameter;
 
-  public FFWIWeatherParamDto id(String id) {
-    this.id = id;
+  public FFWIWeatherParamDto weatherDataId(String weatherDataId) {
+    this.weatherDataId = weatherDataId;
     return this;
   }
 
   /**
    * ID погодного параметра
-   * @return id
+   * @return weatherDataId
   */
   
-  @Schema(name = "id", example = "2a3c6c0e-2d26-49fb-ab45-55a3e703cace", description = "ID погодного параметра", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-  @JsonProperty("id")
-  public String getId() {
-    return id;
+  @Schema(name = "weatherDataId", example = "2a3c6c0e-2d26-49fb-ab45-55a3e703cace", description = "ID погодного параметра", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("weatherDataId")
+  public String getWeatherDataId() {
+    return weatherDataId;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setWeatherDataId(String weatherDataId) {
+    this.weatherDataId = weatherDataId;
   }
 
   public FFWIWeatherParamDto weatherName(String weatherName) {
@@ -96,21 +96,21 @@ public class FFWIWeatherParamDto {
       return false;
     }
     FFWIWeatherParamDto ffWIWeatherParamDto = (FFWIWeatherParamDto) o;
-    return Objects.equals(this.id, ffWIWeatherParamDto.id) &&
+    return Objects.equals(this.weatherDataId, ffWIWeatherParamDto.weatherDataId) &&
         Objects.equals(this.weatherName, ffWIWeatherParamDto.weatherName) &&
         Objects.equals(this.formulaParameter, ffWIWeatherParamDto.formulaParameter);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, weatherName, formulaParameter);
+    return Objects.hash(weatherDataId, weatherName, formulaParameter);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class FFWIWeatherParamDto {\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    weatherDataId: ").append(toIndentedString(weatherDataId)).append("\n");
     sb.append("    weatherName: ").append(toIndentedString(weatherName)).append("\n");
     sb.append("    formulaParameter: ").append(toIndentedString(formulaParameter)).append("\n");
     sb.append("}");

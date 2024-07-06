@@ -11,11 +11,11 @@ public interface FFWIRepository extends JpaRepository<FFWI, UUID> {
 
     @Query(
         value = """
-            SELECT f
+            SELECT DISTINCT f
             FROM ffwi f
-            JOIN FETCH f.fwiSet
-            JOIN FETCH f.weatherParams
-            JOIN FETCH f.precipitationTables
+            LEFT OUTER JOIN f.fwiSet
+            LEFT OUTER JOIN f.weatherDataParams
+            LEFT OUTER JOIN f.precipitationRecords
             """
     )
     public List<FFWI> findAllFetchSubEntities();

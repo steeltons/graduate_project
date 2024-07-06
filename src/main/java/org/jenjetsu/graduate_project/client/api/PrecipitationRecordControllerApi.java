@@ -37,7 +37,7 @@ import jakarta.annotation.Generated;
 
 @Generated(value = "org.openapitools.codegen.languages.SpringCodegen", comments = "Generator version: 7.5.0")
 @Validated
-@Tag(name = "PrecipitationRecordController", description = "the PrecipitationRecordController API")
+@Tag(name = "PrecipitationRecordController", description = "Контроллер для работы с таблицей осадков")
 public interface PrecipitationRecordControllerApi {
 
     /**

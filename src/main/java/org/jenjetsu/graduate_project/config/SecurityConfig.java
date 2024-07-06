@@ -25,6 +25,8 @@ public class SecurityConfig {
             .authorizeHttpRequests(requestConfig ->
                 requestConfig
                     .requestMatchers("/api/v1/users/registration").permitAll()
+                    .requestMatchers("/v3/api-docs/**").permitAll()
+                    .requestMatchers("/swagger-ui/**").permitAll()
                     .anyRequest().authenticated()
             )
             .formLogin(Customizer.withDefaults());
