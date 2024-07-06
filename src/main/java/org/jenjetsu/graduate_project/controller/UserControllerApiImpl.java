@@ -18,11 +18,6 @@ public class UserControllerApiImpl implements UserControllerApi {
     private final ModelMapper modelMapper;
 
     @Override
-    public ResponseEntity<Void> loginUser(UserLoginDto userLoginDto) {
-        return null;
-    }
-
-    @Override
     public ResponseEntity<Void> registrateUser(UserCreateDto userCreateDto) {
         var registrationModel = modelMapper.map(userCreateDto, UserRegistrationModel.class);
 

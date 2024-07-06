@@ -13,8 +13,12 @@ import static org.modelmapper.config.Configuration.AccessLevel.*;
 @Configuration
 public class ModelMapperConfiguration {
 
-    private Converter<UUID, UUID> uuidConverter = ctx -> UUID.fromString(ctx.getSource()
-        .toString());
+    private Converter<UUID, UUID> uuidConverter = ctx -> {
+        var res = ctx.getSource() != null
+            ? UUID.fromString(ctx.getSource().toString())
+            : null;
+        return res;
+    };
 
     private Converter<FFWI, UUID> ffwiToIdConverter = ctx -> Optional.ofNullable(ctx.getSource())
         .map(FFWI::getId)

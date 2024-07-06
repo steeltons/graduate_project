@@ -6,6 +6,7 @@
 package org.jenjetsu.graduate_project.client.api;
 
 import org.jenjetsu.graduate_project.client.model.ApiExceptionDto;
+import org.jenjetsu.graduate_project.client.model.ForecastDataResponseDto;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -71,6 +72,46 @@ public interface AppControllerApi {
     )
     
     ResponseEntity<Void> apiV1AppEndpointsPost(
+        
+    );
+
+
+    /**
+     * GET /api/v1/app-endpoints/forecast : Получить данные для составления прогноза
+     * Получение всех данных для возможности составления прогноза
+     *
+     * @return Успешный ответ (status code 200)
+     *         or Отсутствие id в запросе (status code 400)
+     *         or Пользователь не авторизован (status code 401)
+     *         or Ошибка на сервере (status code 500)
+     */
+    @Operation(
+        operationId = "getForecastData",
+        summary = "Получить данные для составления прогноза",
+        description = "Получение всех данных для возможности составления прогноза",
+        tags = { "AppController" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Успешный ответ", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ForecastDataResponseDto.class)))
+            }),
+            @ApiResponse(responseCode = "400", description = "Отсутствие id в запросе", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            }),
+            @ApiResponse(responseCode = "401", description = "Пользователь не авторизован", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            }),
+            @ApiResponse(responseCode = "500", description = "Ошибка на сервере", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.GET,
+        value = "/api/v1/app-endpoints/forecast",
+        produces = { "application/json" }
+    )
+    
+    ResponseEntity<List<ForecastDataResponseDto>> getForecastData(
         
     );
 

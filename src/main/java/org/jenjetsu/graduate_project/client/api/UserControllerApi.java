@@ -7,7 +7,6 @@ package org.jenjetsu.graduate_project.client.api;
 
 import org.jenjetsu.graduate_project.client.model.ApiExceptionDto;
 import org.jenjetsu.graduate_project.client.model.UserCreateDto;
-import org.jenjetsu.graduate_project.client.model.UserLoginDto;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -38,46 +37,6 @@ import jakarta.annotation.Generated;
 @Validated
 @Tag(name = "UserController", description = "Контроллер для работы с пользователями")
 public interface UserControllerApi {
-
-    /**
-     * POST /api/v1/users/login : Endpoint для аутентификации пользователя в системе
-     * Аутентификация пользователя в приложении
-     *
-     * @param userLoginDto  (optional)
-     * @return Успешная аутентификация пользователя в системе (status code 200)
-     *         or Ошибка в составлении запроса (status code 400)
-     *         or Пользователь не найден в приложении по username или паролю (status code 404)
-     *         or Ошибка на сервере (status code 500)
-     */
-    @Operation(
-        operationId = "loginUser",
-        summary = "Endpoint для аутентификации пользователя в системе",
-        description = "Аутентификация пользователя в приложении",
-        tags = { "UserController" },
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Успешная аутентификация пользователя в системе"),
-            @ApiResponse(responseCode = "400", description = "Ошибка в составлении запроса", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
-            }),
-            @ApiResponse(responseCode = "404", description = "Пользователь не найден в приложении по username или паролю", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
-            }),
-            @ApiResponse(responseCode = "500", description = "Ошибка на сервере", content = {
-                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiExceptionDto.class))
-            })
-        }
-    )
-    @RequestMapping(
-        method = RequestMethod.POST,
-        value = "/api/v1/users/login",
-        produces = { "application/json" },
-        consumes = { "application/json" }
-    )
-    
-    ResponseEntity<Void> loginUser(
-        @Parameter(name = "UserLoginDto", description = "") @Valid @RequestBody(required = false) UserLoginDto userLoginDto
-    );
-
 
     /**
      * POST /api/v1/users/registration : Endpoint для регистрации пользователя в системе

@@ -1295,46 +1295,46 @@ paths:
                     message: Произошла ошибка на стороне сервера
                     code: 500
 
-
-  /api/v1/users/login:
-    post:
+  /api/v1/app-endpoints/forecast:
+    get:
       tags:
-        - UserController
-      summary: Endpoint для аутентификации пользователя в системе
-      description: Аутентификация пользователя в приложении
-      operationId: loginUser
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UserLoginDto'
+        - AppController
+      summary: Получить данные для составления прогноза
+      description: Получение всех данных для возможности составления прогноза
+      operationId: getForecastData
       responses:
         '200':
-          description: Успешная аутентификация пользователя в системе
-        '400':
-          description: Ошибка в составлении запроса
+          description: Успешный ответ
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiExceptionDto'
-              examples:
-                example1:
-                  description: Пример неправильного запроса_1
-                  value:
-                    message: В логине встретился неподдерживаемый символ
-                    code: 400
-        '404':
-          description: Пользователь не найден в приложении по username или паролю
+                type: array
+                items:
+                  $ref: '#/components/schemas/ForecastDataResponseDto'
+        '400':
+          description: Отсутствие id в запросе
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiExceptionDto'
               examples:
                 exmaple1:
-                  description: Запись о пользователе с логином/почтой или паролем не найдена
+                  description: Пример ответа
                   value:
-                    message: Пользователь с такими данными не найден в системе
-                    code: 404
+                    message: Отсутствует параметр id в запросе
+                    code: 400
+        '401':
+          description: Пользователь не авторизован
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiExceptionDto'
+              examples:
+                exmaple1:
+                  description: Пример ответа
+                  value:
+                    message: Пользователь не авторизован
+                    code: 401
         '500':
           description: Ошибка на сервере
           content:
@@ -1347,6 +1347,7 @@ paths:
                   value:
                     message: Произошла ошибка на стороне сервера
                     code: 500
+
   /api/v1/users/registration:
     post:
       tags:
@@ -1653,7 +1654,6 @@ components:
           type: integer
           description: Значение осадков в мм
           example: 3
-
     # DTO для пользователя
     UserCreateDto:
       type: object
@@ -1682,18 +1682,36 @@ components:
           description: Email адрес пользователя
           format: email
           example: tsvetkov@so@dvfu.ru
-    UserLoginDto:
-      type: object
-      description: DTO для логина пользователя
+
+    # Для всего остального
+    ForecastDataResponseDto:
       required:
-        - username
-        - password
+        - ffwiId
+        - ffwiName
+        - previousComplexIndicator
+        - previousComplexDate
+        - weatherDataParams
       properties:
-        username:
+        ffwiId:
           type: string
-          description: Логин или почта пользователя
-          example: tcvetkov.so
-        password:
+          format: uuid
+          description: ID комплексного показателя
+          example: 7575fa5e-252f-46dc-9684-8414e2c93a1b
+        ffwiName:
           type: string
-          description: Пароль пользователя
-          example: $omeP@ssw0rd
+          description: Название КППО для отображения на фронте
+          example: КППО нестерова
+        previousComplexIndicator:
+          type: number
+          description: Предыдущее значение КП для конкретного КППО
+          example: 500.0
+        previousComplexDate:
+          type: string
+          format: date
+          example: 01.01.1970
+        weatherDataParams:
+          type: array
+          description: Параметры прогноза для конкретного КППО
+          items:
+            $ref: '#/components/schemas/FFWIWeatherParamDto'
+
