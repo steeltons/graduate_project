@@ -10,4 +10,16 @@ services:
       - POSTGRES_PASSWORD=123321
       - POSTGRES_DB=jenjetsu
     ports:
-      - 5432:5432
+      - 15432:5432
+
+  my-app:
+    build:
+      context: ./build
+      dockerfile: graduate.dockerfile
+    container_name: my-graduate-project
+    environment:
+      - DB_URL=jdbc:postgresql://npcb-database:5432/jenjetsu
+      - DB_USER=Stey
+      - DB_PASS=123321
+    ports:
+      - 10080:10080

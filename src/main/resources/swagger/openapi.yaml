@@ -1347,6 +1347,27 @@ paths:
                   value:
                     message: Произошла ошибка на стороне сервера
                     code: 500
+    post:
+      tags:
+        - AppController
+      summary: Определить уровень пожарной угрозы
+      description: Определение уровня пожарной угрозы по переданным параметрам
+      operationId: calculateFireDanger
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForecastDataCalculateDto'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ForecastMessageDto'
 
   /api/v1/users/registration:
     post:
@@ -1714,4 +1735,53 @@ components:
           description: Параметры прогноза для конкретного КППО
           items:
             $ref: '#/components/schemas/FFWIWeatherParamDto'
-
+    ForecastDataCalculateDto:
+      required:
+        - ffwiId
+        - ffwiName
+        - previousComplexIndicator
+        - previousComplexDate
+        - weatherDataParams
+      properties:
+        ffwiId:
+          type: string
+          format: uuid
+          description: ID комплексного показателя
+          example: 7575fa5e-252f-46dc-9684-8414e2c93a1b
+        previousComplexIndicator:
+          type: number
+          description: Предыдущее значение КП для конкретного КППО
+          example: 500.0
+        weatherDataParams:
+          type: array
+          description: Параметры прогноза для конкретного КППО
+          items:
+            $ref: '#/components/schemas/WeatherValueDto'
+    WeatherValueDto:
+      required:
+        - weatherDataId
+        - value
+      properties:
+        weatherDataId:
+          type: string
+          format: uuid
+          description: ID погодного параметра
+        value:
+          type: number
+          description: Текущее значение параметра
+          example: 16.8
+    ForecastMessageDto:
+      properties:
+        step:
+          type: integer
+          description: Шаг расчёта
+          example: 0
+        message:
+          type: string
+          description: Сообщение с шага
+          example: Коэффициент осадков = 0 т.к. сегодняшние дневные осадки меньше максимального порога
+        ffwiId:
+          type: string
+          format: uuid
+          description: ID КППО, для которого расчитывается
+          example: 7575fa5e-252f-46dc-9684-8414e2c93a1b

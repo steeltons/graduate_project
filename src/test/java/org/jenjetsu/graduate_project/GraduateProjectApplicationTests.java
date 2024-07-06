@@ -11,3 +11,5 @@ class GraduateProjectApplicationTests extends AbstractIntegrationTest {
 	}
 
 }
+
+

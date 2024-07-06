@@ -6,7 +6,9 @@
 package org.jenjetsu.graduate_project.client.api;
 
 import org.jenjetsu.graduate_project.client.model.ApiExceptionDto;
+import org.jenjetsu.graduate_project.client.model.ForecastDataCalculateDto;
 import org.jenjetsu.graduate_project.client.model.ForecastDataResponseDto;
+import org.jenjetsu.graduate_project.client.model.ForecastMessageDto;
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -73,6 +75,36 @@ public interface AppControllerApi {
     
     ResponseEntity<Void> apiV1AppEndpointsPost(
         
+    );
+
+
+    /**
+     * POST /api/v1/app-endpoints/forecast : Определить уровень пожарной угрозы
+     * Определение уровня пожарной угрозы по переданным параметрам
+     *
+     * @param forecastDataCalculateDto  (required)
+     * @return Успешный ответ (status code 200)
+     */
+    @Operation(
+        operationId = "calculateFireDanger",
+        summary = "Определить уровень пожарной угрозы",
+        description = "Определение уровня пожарной угрозы по переданным параметрам",
+        tags = { "AppController" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Успешный ответ", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ForecastMessageDto.class)))
+            })
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/api/v1/app-endpoints/forecast",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    
+    ResponseEntity<List<ForecastMessageDto>> calculateFireDanger(
+        @Parameter(name = "ForecastDataCalculateDto", description = "", required = true) @Valid @RequestBody ForecastDataCalculateDto forecastDataCalculateDto
     );
 
 

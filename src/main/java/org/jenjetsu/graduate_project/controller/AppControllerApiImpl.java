@@ -6,6 +6,7 @@ import java.util.*;
 import lombok.*;
 import org.jenjetsu.graduate_project.client.api.*;
 import org.jenjetsu.graduate_project.client.model.*;
+import org.jenjetsu.graduate_project.model.*;
 import org.jenjetsu.graduate_project.service.*;
 import org.modelmapper.*;
 import org.springframework.http.*;
@@ -35,6 +36,14 @@ public class AppControllerApiImpl implements AppControllerApi {
         List<ForecastDataResponseDto> dtos = modelMapper.map(forecastDatas, GENERIC_LIST_TYPE);
 
         return ResponseEntity.ok(dtos);
+    }
+
+    // TODO Доделать
+    @Override
+    public ResponseEntity<List<ForecastMessageDto>> calculateFireDanger(ForecastDataCalculateDto dto) {
+        var res = appService.calculateFireDanger(dto);
+
+        return null;
     }
 
 }

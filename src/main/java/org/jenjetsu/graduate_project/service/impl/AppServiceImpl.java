@@ -8,10 +8,12 @@ import java.util.stream.*;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.slf4j.*;
+import org.jenjetsu.graduate_project.client.model.*;
 import org.jenjetsu.graduate_project.entity.*;
 import org.jenjetsu.graduate_project.model.*;
 import org.jenjetsu.graduate_project.repository.*;
 import org.jenjetsu.graduate_project.service.*;
+import org.jenjetsu.graduate_project.service.impl.component.*;
 import org.springframework.stereotype.*;
 import org.springframework.transaction.annotation.*;
 
@@ -20,11 +22,17 @@ import org.springframework.transaction.annotation.*;
 @RequiredArgsConstructor
 public class AppServiceImpl implements AppService {
 
+    private static final UUID FOR_ALL_FFWI_ID = UUID.randomUUID();
+
     private final EntityManager entityManager;
 
     private final WeatherDateRepository weatherRep;
 
     private final RecentForecastRepository forecastRep;
+
+    private final FFWIRepository ffwiRep;
+
+    private final ForecastCalculatorComponent forecastComponent;
 
     @Override
     @Transactional
@@ -55,7 +63,7 @@ public class AppServiceImpl implements AppService {
         var standardResult = ForecastData.builder()
             .previousComplexDate(LocalDate.of(2020, 1, 1))
             .previousComplexIndicator(BigDecimal.ZERO)
-            .ffwiId(null)
+            .ffwiId(FOR_ALL_FFWI_ID)
             .ffwiName("По всем параметрам")
             .weatherDataParams(weatherRep.findAll().stream()
                 .map(param -> FFWIParameter.builder()
@@ -68,6 +76,21 @@ public class AppServiceImpl implements AppService {
         result.add(standardResult);
 
         return result;
+    }
+
+    @Override
+    public List<ForecastMessageDto> calculateFireDanger(ForecastDataCalculateDto calculateDto) {
+        var ffwiList = ffwiRep.findAllFetchSubEntities();
+        var forecastMessages = new ArrayList<ForecastMessageDto>();
+        ffwiList.stream()
+            .filter(ffwi -> calculateDto.getFfwiId().equals(FOR_ALL_FFWI_ID)
+                            || ffwi.getId().equals(calculateDto.getFfwiId()))
+            .forEach(ffwi -> {
+                var result = forecastComponent.calculateForecast(calculateDto, ffwi);
+                var forecastMessage = new ForecastMessageDto();
+            });
+
+        return List.of();
     }
 
     private ForecastData mapRecentForecast(RecentForecast forecast) {
