@@ -7,6 +7,7 @@ import lombok.*;
 import org.jenjetsu.graduate_project.client.api.*;
 import org.jenjetsu.graduate_project.client.model.*;
 import org.jenjetsu.graduate_project.entity.*;
+import org.jenjetsu.graduate_project.repository.*;
 import org.jenjetsu.graduate_project.service.*;
 import org.modelmapper.*;
 import org.springframework.http.*;

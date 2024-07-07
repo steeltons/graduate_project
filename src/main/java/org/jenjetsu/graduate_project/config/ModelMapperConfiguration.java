@@ -1,9 +1,11 @@
 package org.jenjetsu.graduate_project.config;
 
+import java.time.*;
 import java.util.*;
 
 import org.jenjetsu.graduate_project.client.model.*;
 import org.jenjetsu.graduate_project.entity.*;
+import org.jenjetsu.graduate_project.model.*;
 import org.modelmapper.*;
 import org.modelmapper.convention.*;
 import org.springframework.context.annotation.*;
@@ -26,6 +28,11 @@ public class ModelMapperConfiguration {
 
         return names;
     };
+
+    private Converter<WeatherData, UUID> anotherConverter = ctx ->
+        ctx.getSource().getId();
+
+    private Converter<LocalDate, LocalDate> localDateConverter = ctx -> ctx.getSource();
 
     private Converter<String, WeatherData> ffwiWeatherDataCreateConverter = ctx -> WeatherData.builder()
         .id(ctx.getSource() != null ? UUID.fromString(ctx.getSource()) : null)
@@ -67,6 +74,12 @@ public class ModelMapperConfiguration {
                 .map(PrecipitationTable::getFfwi, PrecipitationRecordResponseDto::setFfwiName))
             .addMappings(mapper -> mapper.using(ffwiToIdConverter)
                 .map(PrecipitationTable::getFfwi, PrecipitationRecordResponseDto::setFfwId));
+
+        modelMapper.createTypeMap(ForecastData.class, ForecastDataResponseDto.class)
+            .addMappings(mapper -> mapper.using(localDateConverter)
+                .map(
+                    ForecastData::getPreviousComplexDate,
+                    ForecastDataResponseDto::setPreviousComplexDate));
 
         return modelMapper;
     }

@@ -34,6 +34,8 @@ public class AppServiceImpl implements AppService {
 
     private final ForecastCalculatorComponent forecastComponent;
 
+    private final Clock appClock;
+
     @Override
     @Transactional
     public void clearDatabase() {
@@ -54,9 +56,15 @@ public class AppServiceImpl implements AppService {
 
     @Override
     public List<ForecastData> getForecastData() {
-        var forecasts = forecastRep.getLatestForFFWI();
+        var ffwis = ffwiRep.findAllWithForecast();
+        var result = ffwis.stream()
+            .map(ffwi -> {
+                var forecast = ffwi.getRecentForecasts().stream()
+                    .max((f1, f2) -> f1.getForecastTime().compareTo(f2.getForecastTime()))
+                    .orElse(mockLatestForecasts(ffwi));
 
-        var result = forecasts.stream()
+                return forecast;
+            })
             .map(this::mapRecentForecast)
             .collect(Collectors.toCollection(ArrayList::new));
 
@@ -87,10 +95,19 @@ public class AppServiceImpl implements AppService {
                             || ffwi.getId().equals(calculateDto.getFfwiId()))
             .forEach(ffwi -> {
                 var result = forecastComponent.calculateForecast(calculateDto, ffwi);
-                var forecastMessage = new ForecastMessageDto();
+                var innerMessages = new ArrayList<ForecastMessageDto>();
+                for (int i = 1; i <= result.getMessages().size(); i++) {
+                    var message = result.getMessages().get(i - 1);
+                    var messageDto = new ForecastMessageDto();
+                    messageDto.setStep(i);
+                    messageDto.setMessage(message);
+                    messageDto.setFfwiId(result.getFfwi().getId());
+                    innerMessages.add(messageDto);
+                }
+                forecastMessages.addAll(innerMessages);
             });
 
-        return List.of();
+        return forecastMessages;
     }
 
     private ForecastData mapRecentForecast(RecentForecast forecast) {
@@ -105,4 +122,11 @@ public class AppServiceImpl implements AppService {
         return data;
     }
 
+    private RecentForecast mockLatestForecasts(FFWI ffwi) {
+        return RecentForecast.builder()
+            .ffwi(ffwi)
+            .forecastTime(ZonedDateTime.now(appClock))
+            .complexIndicator(BigDecimal.ZERO)
+            .build();
+    }
 }

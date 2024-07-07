@@ -20,6 +20,7 @@ import org.hibernate.validator.constraints.*;
 @Entity(name = "fwi")
 public class FWI {
 
+    public static final BigDecimal INFINITY_VALUE = new BigDecimal("9999999999.99");
     @Id
     @GeneratedValue(strategy = GenerationType.UUID, generator = "uuid-hibernate-generator")
     @GenericGenerator(name = "uuid-hibernate-generator", strategy = "org.hibernate.id.UUIDGenerator")

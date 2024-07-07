@@ -20,4 +20,13 @@ public interface FFWIRepository extends JpaRepository<FFWI, UUID> {
     )
     public List<FFWI> findAllFetchSubEntities();
 
+    @Query(
+        value = """
+            SELECT f
+            FROM ffwi f
+            LEFT JOIN FETCH f.recentForecasts rf
+            """
+    )
+    public List<FFWI> findAllWithForecast();
+
 }

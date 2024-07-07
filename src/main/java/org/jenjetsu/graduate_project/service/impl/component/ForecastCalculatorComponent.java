@@ -43,6 +43,7 @@ public class ForecastCalculatorComponent {
 
         var calculateResult = calculateByFormula(ffwi.getFormula(), resultMap, messageLog);
         var coeff = getRainCoefficient(weatherParams, ffwi, previousIndex, messageLog);
+        messageLog.add("Предыдущее значение КП: " + previousIndex);
         calculateResult = calculateResult.add(previousIndex.multiply(coeff));
         messageLog.add("Текущий КП: " + calculateResult);
 
@@ -84,6 +85,7 @@ public class ForecastCalculatorComponent {
         Map<String, Object> params,
         List<String> messageLog
     ) {
+        messageLog.add("Формула расчёта: " + formula);
         var lexems = lexerService.parseFormula(formula);
         var formulaTree = parserService.parse(lexems);
         var finalIndex = calculatorService.calculate(formulaTree, params);
@@ -139,8 +141,8 @@ public class ForecastCalculatorComponent {
                 }
                 return predicateResult;
             })
-            .findFirst()
-            .get();
+            .toList()
+            .get(0);
 
         messageLog.add(format(goodMessage, result.getName(), currentIndex, result.getMinValue(),
             result.getMaxValue()));

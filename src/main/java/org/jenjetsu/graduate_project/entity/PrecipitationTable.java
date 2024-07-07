@@ -14,6 +14,8 @@ import lombok.*;
 @Entity(name = "precipitation_table")
 public class PrecipitationTable {
 
+    public static final BigDecimal INFINITY_VALUE = new BigDecimal("9999999999.99");
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

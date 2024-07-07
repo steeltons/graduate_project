@@ -6,6 +6,7 @@
 package org.jenjetsu.graduate_project.client.api;
 
 import org.jenjetsu.graduate_project.client.model.ApiExceptionDto;
+import org.jenjetsu.graduate_project.client.model.CheckFormulaDto;
 import org.jenjetsu.graduate_project.client.model.ForecastDataCalculateDto;
 import org.jenjetsu.graduate_project.client.model.ForecastDataResponseDto;
 import org.jenjetsu.graduate_project.client.model.ForecastMessageDto;
@@ -105,6 +106,38 @@ public interface AppControllerApi {
     
     ResponseEntity<List<ForecastMessageDto>> calculateFireDanger(
         @Parameter(name = "ForecastDataCalculateDto", description = "", required = true) @Valid @RequestBody ForecastDataCalculateDto forecastDataCalculateDto
+    );
+
+
+    /**
+     * POST /api/v1/app-endpoint/check-formula : Проверка формулы на правильность
+     * Проверяет формулу на правильность
+     *
+     * @param checkFormulaDto  (required)
+     * @return Успешный ответ (status code 200)
+     *         or Есть ошибки (status code 400)
+     */
+    @Operation(
+        operationId = "checkFormula",
+        summary = "Проверка формулы на правильность",
+        description = "Проверяет формулу на правильность",
+        tags = { "AppController" },
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Успешный ответ", content = {
+                @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = String.class)))
+            }),
+            @ApiResponse(responseCode = "400", description = "Есть ошибки")
+        }
+    )
+    @RequestMapping(
+        method = RequestMethod.POST,
+        value = "/api/v1/app-endpoint/check-formula",
+        produces = { "application/json" },
+        consumes = { "application/json" }
+    )
+    
+    ResponseEntity<List<String>> checkFormula(
+        @Parameter(name = "CheckFormulaDto", description = "", required = true) @Valid @RequestBody CheckFormulaDto checkFormulaDto
     );
 
 

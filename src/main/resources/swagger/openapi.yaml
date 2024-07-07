@@ -1369,6 +1369,33 @@ paths:
                 items:
                   $ref: '#/components/schemas/ForecastMessageDto'
 
+  /api/v1/app-endpoint/check-formula:
+    post:
+      tags:
+        - AppController
+      summary: Проверка формулы на правильность
+      description: Проверяет формулу на правильность
+      operationId: checkFormula
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckFormulaDto'
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  description: Токены переменных
+                  example: T_0
+        '400':
+          description: Есть ошибки
+
   /api/v1/users/registration:
     post:
       tags:
@@ -1793,3 +1820,11 @@ components:
           format: uuid
           description: ID КППО, для которого расчитывается
           example: 7575fa5e-252f-46dc-9684-8414e2c93a1b
+    CheckFormulaDto:
+      required:
+        - formula
+      properties:
+        formula:
+          type: string
+          description: Сырая формула
+          example: $T_0 + $T_d

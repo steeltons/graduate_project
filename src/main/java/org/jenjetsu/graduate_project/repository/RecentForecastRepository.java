@@ -11,13 +11,15 @@ public interface RecentForecastRepository extends JpaRepository<RecentForecast, 
         value = """
             SELECT rf
             FROM recent_forecast rf
-            LEFT JOIN FETCH rf.ffwi f
-            LEFT JOIN FETCH f.weatherDataParams
-            WHERE rf.forecastTime = (
+            RIGHT OUTER JOIN rf.ffwi f
+            RIGHT OUTER JOIN f.weatherDataParams
+            WHERE rf IS NULL
+            OR rf.forecastTime = (
                 SELECT MAX(rf1.forecastTime) FROM recent_forecast rf1
                 WHERE rf1.ffwi.id = rf.ffwi.id
             )
             """
     )
     public List<RecentForecast> getLatestForFFWI();
+
 }

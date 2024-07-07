@@ -6,6 +6,7 @@ import lombok.*;
 import org.jenjetsu.graduate_project.client.api.*;
 import org.jenjetsu.graduate_project.client.model.*;
 import org.jenjetsu.graduate_project.entity.*;
+import org.jenjetsu.graduate_project.repository.*;
 import org.jenjetsu.graduate_project.service.*;
 import org.modelmapper.*;
 import org.springframework.http.*;
@@ -19,11 +20,21 @@ public class FWIControllerApiImpl implements FwiControllerApi {
 
     private final ModelMapper modelMapper;
 
+    private final FFWIRepository ffwiRep;
+
+    private final FireDangerRepository fireDangerRep;
+
     @Override
     public ResponseEntity<Void> createFwi(FWICreateDto fwICreateDto) {
         var rawFwi = modelMapper.map(fwICreateDto, FWI.class);
         rawFwi.setFfwi(FFWI.builder().id(fwICreateDto.getFfwiId()).build());
         rawFwi.setFireDanger(FireDanger.builder().id(fwICreateDto.getFireDangerId()).build());
+        if (rawFwi.getMinValue().compareTo(FWI.INFINITY_VALUE) >= 0) {
+            rawFwi.setMinValue(FWI.INFINITY_VALUE);
+        }
+        if (rawFwi.getMaxValue().compareTo(FWI.INFINITY_VALUE) >= 0) {
+            rawFwi.setMaxValue(FWI.INFINITY_VALUE);
+        }
         fwiService.create(rawFwi);
 
         return ResponseEntity.ok(null);
@@ -61,6 +72,19 @@ public class FWIControllerApiImpl implements FwiControllerApi {
         fwiService.update(fwi);
 
         return ResponseEntity.ok(null);
+    }
+
+    @GetMapping("/api/v1/fire-weather-indexes/dictionary")
+    public ResponseEntity<FwiDictionaryReturnDto> createDictionary() {
+        var ffwis = ffwiRep.findAll();
+        var dangers = fireDangerRep.findAll();
+
+        var dictionary = FwiDictionaryReturnDto.builder()
+            .ffwiList(modelMapper.map(ffwis, new TypeToken<List<FFWIResponseDto>>(){}.getType()))
+            .fireDangerList(modelMapper.map(dangers, new TypeToken<List<FireDangerResponseDto>>(){}.getType()))
+            .build();
+
+        return ResponseEntity.ok(dictionary);
     }
 
 }

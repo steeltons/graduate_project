@@ -6,6 +6,7 @@ import java.util.*;
 import lombok.*;
 import org.jenjetsu.graduate_project.client.api.*;
 import org.jenjetsu.graduate_project.client.model.*;
+import org.jenjetsu.graduate_project.entity.formula.*;
 import org.jenjetsu.graduate_project.model.*;
 import org.jenjetsu.graduate_project.service.*;
 import org.modelmapper.*;
@@ -23,6 +24,10 @@ public class AppControllerApiImpl implements AppControllerApi {
 
     private final ModelMapper modelMapper;
 
+    private final FormulaLexerService lexerService;
+
+    private final FormulaParserService parserService;
+
     @Override
     public ResponseEntity<Void> apiV1AppEndpointsPost() {
         appService.clearDatabase();
@@ -32,7 +37,25 @@ public class AppControllerApiImpl implements AppControllerApi {
     @Override
     public ResponseEntity<List<ForecastDataResponseDto>> getForecastData() {
         var forecastDatas = appService.getForecastData();
-        List<ForecastDataResponseDto> dtos = modelMapper.map(forecastDatas, GENERIC_LIST_TYPE);
+        List<ForecastDataResponseDto> dtos = forecastDatas.stream()
+            .map(forecast -> {
+                var dto = new ForecastDataResponseDto();
+                dto.setFfwiId(forecast.getFfwiId());
+                dto.setFfwiName(forecast.getFfwiName());
+                dto.setPreviousComplexIndicator(forecast.getPreviousComplexIndicator());
+                dto.setPreviousComplexDate(forecast.getPreviousComplexDate());
+                dto.setWeatherDataParams(forecast.getWeatherDataParams().stream()
+                    .map(param -> {
+                        var paramDto = new FFWIWeatherParamDto();
+                        paramDto.setWeatherDataId(param.getWeatherData().getId().toString());
+                        paramDto.setWeatherName(param.getWeatherName());
+                        paramDto.setFormulaParameter(param.getFormulaParameter());
+                        return paramDto;
+                    }).toList());
+
+                return dto;
+            }).toList();
+
 
         return ResponseEntity.ok(dtos);
     }
@@ -42,7 +65,24 @@ public class AppControllerApiImpl implements AppControllerApi {
     public ResponseEntity<List<ForecastMessageDto>> calculateFireDanger(ForecastDataCalculateDto dto) {
         var res = appService.calculateFireDanger(dto);
 
-        return null;
+        return ResponseEntity.ok(res);
+    }
+
+
+
+    @Override
+    public ResponseEntity<List<String>> checkFormula(CheckFormulaDto checkFormulaDto) {
+        try {
+            var lexems = lexerService.parseFormula(checkFormulaDto.getFormula());
+            var node = parserService.parse(lexems);
+            var variables = lexems.stream()
+                .filter(lexem -> lexem.getToken().equals(FormulaToken.VARIABLE))
+                .map(FormulaLexem::getText)
+                .toList();
+            return ResponseEntity.ok(variables);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
 }
