@@ -26,10 +26,14 @@ public class RefreshTokenDeserializer implements Function<String, Token> {
             EncryptedJWT encryptedJWT = EncryptedJWT.parse(s);
             encryptedJWT.decrypt(jweDecrypter);
             JWTClaimsSet claimsSet = encryptedJWT.getJWTClaimsSet();
-            return new Token(UUID.fromString(claimsSet.getJWTID()).toString(), claimsSet.getSubject(),
-                    claimsSet.getStringListClaim("authorities"),
-                    claimsSet.getIssueTime().toInstant(),
-                    claimsSet.getExpirationTime().toInstant());
+            return Token.builder()
+                .id(UUID.fromString(claimsSet.getJWTID()).toString())
+                .subject(claimsSet.getSubject())
+                .authorities(claimsSet.getStringListClaim("authorities"))
+                .role(claimsSet.getStringClaim("role"))
+                .createAt(claimsSet.getIssueTime().toInstant())
+                .expiredAt(claimsSet.getExpirationTime().toInstant())
+                .build();
         } catch (ParseException | JOSEException e) {
             log.error("Error verifying refresh token. Error message {}", e.getMessage());
         }

@@ -13,12 +13,16 @@ import java.util.function.Function;
 public class RefreshTokenSerializer implements Function<Token, String> {
 
     private final JWEAlgorithm algorithm;
+
     private final JWEEncrypter encrypter;
+
     private final EncryptionMethod encryptionMethod;
 
-    public RefreshTokenSerializer(JWEEncrypter encrypter,
-                                  EncryptionMethod encryptionMethod,
-                                  JWEAlgorithm algorithm){
+    public RefreshTokenSerializer(
+        JWEEncrypter encrypter,
+        EncryptionMethod encryptionMethod,
+        JWEAlgorithm algorithm
+    ) {
         this.encrypter = encrypter;
         this.encryptionMethod = encryptionMethod;
         this.algorithm = algorithm;
@@ -27,15 +31,16 @@ public class RefreshTokenSerializer implements Function<Token, String> {
     @Override
     public String apply(Token token) {
         JWEHeader header = new JWEHeader.Builder(algorithm, encryptionMethod)
-                .keyID(token.getId())
-                .build();
+            .keyID(token.getId())
+            .build();
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .jwtID(token.getId())
-                .subject(token.getSubject())
-                .issueTime(Date.from(token.getCreateAt()))
-                .expirationTime(Date.from(token.getExpiredAt()))
-                .claim("authorities", token.getAuthorities())
-                .build();
+            .jwtID(token.getId())
+            .subject(token.getSubject())
+            .issueTime(Date.from(token.getCreateAt()))
+            .expirationTime(Date.from(token.getExpiredAt()))
+            .claim("authorities", token.getAuthorities())
+            .claim("role", token.getRole())
+            .build();
         EncryptedJWT encryptedJWT = new EncryptedJWT(header, claimsSet);
         try {
             encryptedJWT.encrypt(encrypter);
@@ -45,4 +50,5 @@ public class RefreshTokenSerializer implements Function<Token, String> {
             throw new RuntimeException(e);
         }
     }
+
 }

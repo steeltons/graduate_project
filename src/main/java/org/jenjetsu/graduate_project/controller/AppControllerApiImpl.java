@@ -26,7 +26,6 @@ public class AppControllerApiImpl implements AppControllerApi {
     @Override
     public ResponseEntity<Void> apiV1AppEndpointsPost() {
         appService.clearDatabase();
-
         return ResponseEntity.ok(null);
     }
 

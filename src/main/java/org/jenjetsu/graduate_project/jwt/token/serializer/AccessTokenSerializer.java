@@ -16,10 +16,13 @@ import java.util.function.Function;
 public class AccessTokenSerializer implements Function<Token, String> {
 
     private final JWSSigner signer;
+
     private final JWSAlgorithm algorithm;
 
-    public AccessTokenSerializer(JWSSigner signer,
-                                JWSAlgorithm algorithm){
+    public AccessTokenSerializer(
+        JWSSigner signer,
+        JWSAlgorithm algorithm
+    ) {
         this.signer = signer;
         this.algorithm = algorithm;
     }
@@ -27,15 +30,16 @@ public class AccessTokenSerializer implements Function<Token, String> {
     @Override
     public String apply(Token token) {
         JWSHeader header = new JWSHeader.Builder(this.algorithm)
-                .keyID(token.getId())
-                .build();
+            .keyID(token.getId())
+            .build();
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .jwtID(token.getId())
-                .subject(token.getSubject())
-                .issueTime(Date.from(token.getCreateAt()))
-                .expirationTime(Date.from(token.getExpiredAt()))
-                .claim("authorities", token.getAuthorities())
-                .build();
+            .jwtID(token.getId())
+            .subject(token.getSubject())
+            .issueTime(Date.from(token.getCreateAt()))
+            .expirationTime(Date.from(token.getExpiredAt()))
+            .claim("authorities", token.getAuthorities())
+            .claim("role", token.getRole())
+            .build();
         SignedJWT signedJWT = new SignedJWT(header, claimsSet);
         try {
             signedJWT.sign(this.signer);
@@ -45,4 +49,5 @@ public class AccessTokenSerializer implements Function<Token, String> {
         }
         return signedJWT.serialize();
     }
+
 }

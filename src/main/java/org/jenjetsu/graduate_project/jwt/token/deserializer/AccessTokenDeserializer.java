@@ -30,10 +30,14 @@ public class AccessTokenDeserializer implements Function<String, Token> {
             SignedJWT signedJWT = SignedJWT.parse(s);
             if(signedJWT.verify(jwsVerifier)) {
                 JWTClaimsSet claimsSet = signedJWT.getJWTClaimsSet();
-                return new Token(UUID.fromString(claimsSet.getJWTID()).toString(), claimsSet.getSubject(),
-                        claimsSet.getStringListClaim("authorities"),
-                        claimsSet.getIssueTime().toInstant(),
-                        claimsSet.getExpirationTime().toInstant());
+                return Token.builder()
+                    .id(UUID.fromString(claimsSet.getJWTID()).toString())
+                    .subject(claimsSet.getSubject())
+                    .authorities(claimsSet.getStringListClaim("authorities"))
+                    .role(claimsSet.getStringClaim("role"))
+                    .createAt(claimsSet.getIssueTime().toInstant())
+                    .expiredAt(claimsSet.getExpirationTime().toInstant())
+                    .build();
             }
         } catch (ParseException | JOSEException e) {
             log.error("Error verifying access token. Error message: {}", e.getMessage());

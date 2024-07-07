@@ -17,11 +17,18 @@ public class AccessTokenGenerator implements Function<Token, Token> {
     @Override
     public Token apply(Token token) {
         Instant now = Instant.now();
-        return new Token(token.getId(), token.getSubject(),
-                token.getAuthorities().stream()
-                     .filter((authority) -> authority.startsWith("GRANT_"))
-                     .map((authority) -> authority.replace("GRANT_",""))
-                     .toList(), now, now.plus(ACCESS_TOKEN_LIFE_TIME));
+        var filteredAuthorities = token.getAuthorities().stream()
+            .filter((authority) -> authority.startsWith("GRANT_"))
+            .map((authority) -> authority.replace("GRANT_", ""))
+            .toList();
+        return Token.builder()
+            .id(token.getId())
+            .subject(token.getSubject())
+            .authorities(filteredAuthorities)
+            .role(token.getRole())
+            .createAt(now)
+            .expiredAt(now.plus(ACCESS_TOKEN_LIFE_TIME))
+            .build();
     }
 
 }

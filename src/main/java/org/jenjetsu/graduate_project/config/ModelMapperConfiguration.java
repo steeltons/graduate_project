@@ -20,10 +20,12 @@ public class ModelMapperConfiguration {
         .map(FFWI::getId)
         .orElse(null);
 
-    private Converter<Collection<FWI>, String> fwiNamesConverter = ctx -> ctx.getSource()
-        .stream()
-        .map(FWI::getName)
-        .reduce("", (acc, value) -> acc + ", " + value);
+    private Converter<Collection<FWI>, String> fwiNamesConverter = ctx -> {
+        var fwis = ctx.getSource().stream().map(FWI::getName).toList();
+        var names = String.join(",", fwis);
+
+        return names;
+    };
 
     private Converter<String, WeatherData> ffwiWeatherDataCreateConverter = ctx -> WeatherData.builder()
         .id(ctx.getSource() != null ? UUID.fromString(ctx.getSource()) : null)
