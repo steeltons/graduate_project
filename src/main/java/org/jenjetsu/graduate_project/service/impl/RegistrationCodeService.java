@@ -27,6 +27,26 @@ public class RegistrationCodeService {
     @Value("${app.cache.key.registration-code}")
     private String registrationCodeKey;
 
+    public UUID putUserRegistration(UserCacheInfoModel infoModel) {
+        var cache = cacheManager.getCache(appCacheName);
+
+        if (cache == null) {
+            throw new IllegalStateException(format(
+                "Кеш с назвнием %s не существует",
+                appCacheName));
+        }
+
+        if (infoModel.getRegistrationCode() == null) {
+            infoModel.setRegistrationCode(UUID.randomUUID());
+        }
+        var code = infoModel.getRegistrationCode();
+
+        infoModel.setExpiredAt(ZonedDateTime.now(appClock).plusHours(96L));
+        cache.put(registrationCodeKey + ":" + code.toString(), infoModel);
+
+        return code;
+    }
+
     public UserCacheInfoModel getUserRegistrationInfo(UUID registrationCode) {
         var cache = cacheManager.getCache(appCacheName);
 

@@ -26,4 +26,7 @@ public class WeatherData {
     @Length(min = 4, max = 32, message = "Размер название метеоданной не подходит")
     private String name;
 
+    @Column(name = "description", length = 1000)
+    private String description;
+
 }

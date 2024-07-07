@@ -1451,6 +1451,10 @@ components:
           type: string
           example: Температура воздуха
           description: Название погодного параметра
+        description:
+          type: string
+          description: Описание параметра
+          example: AAAAAAAAAAA
     CreateWeaterDataDto:
       type: object
       description: ДТО на добавление новго погодного условия
@@ -1460,6 +1464,10 @@ components:
         name:
           type: string
           example: Температура воздуха
+        description:
+          type: string
+          description: Описание параметра
+          example: BBBBBBBBBB
     # DTO для КППО
     FFWIResponseDto:
       description: DTO представления КППО в приложении

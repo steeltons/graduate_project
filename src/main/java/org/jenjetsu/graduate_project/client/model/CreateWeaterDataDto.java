@@ -23,6 +23,8 @@ public class CreateWeaterDataDto {
 
   private String name;
 
+  private String description;
+
   public CreateWeaterDataDto() {
     super();
   }
@@ -54,6 +56,26 @@ public class CreateWeaterDataDto {
     this.name = name;
   }
 
+  public CreateWeaterDataDto description(String description) {
+    this.description = description;
+    return this;
+  }
+
+  /**
+   * Описание параметра
+   * @return description
+  */
+  
+  @Schema(name = "description", example = "BBBBBBBBBB", description = "Описание параметра", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("description")
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -63,12 +85,13 @@ public class CreateWeaterDataDto {
       return false;
     }
     CreateWeaterDataDto createWeaterDataDto = (CreateWeaterDataDto) o;
-    return Objects.equals(this.name, createWeaterDataDto.name);
+    return Objects.equals(this.name, createWeaterDataDto.name) &&
+        Objects.equals(this.description, createWeaterDataDto.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(name, description);
   }
 
   @Override
@@ -76,6 +99,7 @@ public class CreateWeaterDataDto {
     StringBuilder sb = new StringBuilder();
     sb.append("class CreateWeaterDataDto {\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

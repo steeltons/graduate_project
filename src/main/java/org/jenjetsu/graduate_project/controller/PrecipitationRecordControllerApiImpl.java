@@ -29,6 +29,7 @@ public class PrecipitationRecordControllerApiImpl implements PrecipitationRecord
         PrecipitationRecordCreateDto dto
     ) {
         var rawRecord = modelMapper.map(dto, PrecipitationTable.class);
+        rawRecord.setFfwi(FFWI.builder().id(dto.getFfwiId()).build());
         var result = precipitationService.create(rawRecord);
         var responseDto = modelMapper.map(result, PrecipitationRecordResponseDto.class);
 

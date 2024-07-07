@@ -25,6 +25,8 @@ public class WeatherDataDto {
 
   private String name;
 
+  private String description;
+
   public WeatherDataDto() {
     super();
   }
@@ -77,6 +79,26 @@ public class WeatherDataDto {
     this.name = name;
   }
 
+  public WeatherDataDto description(String description) {
+    this.description = description;
+    return this;
+  }
+
+  /**
+   * Описание параметра
+   * @return description
+  */
+  
+  @Schema(name = "description", example = "AAAAAAAAAAA", description = "Описание параметра", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
+  @JsonProperty("description")
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -87,12 +109,13 @@ public class WeatherDataDto {
     }
     WeatherDataDto weatherDataDto = (WeatherDataDto) o;
     return Objects.equals(this.id, weatherDataDto.id) &&
-        Objects.equals(this.name, weatherDataDto.name);
+        Objects.equals(this.name, weatherDataDto.name) &&
+        Objects.equals(this.description, weatherDataDto.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name);
+    return Objects.hash(id, name, description);
   }
 
   @Override
@@ -101,6 +124,7 @@ public class WeatherDataDto {
     sb.append("class WeatherDataDto {\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("}");
     return sb.toString();
   }

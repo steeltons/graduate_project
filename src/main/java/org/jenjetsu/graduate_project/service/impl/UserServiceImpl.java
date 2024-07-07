@@ -2,7 +2,6 @@ package org.jenjetsu.graduate_project.service.impl;
 
 import java.util.*;
 
-import lombok.*;
 import org.jenjetsu.graduate_project.entity.*;
 import org.jenjetsu.graduate_project.entity.User;
 import org.jenjetsu.graduate_project.model.*;
@@ -73,7 +72,7 @@ public class UserServiceImpl extends SimpleJpaService<User, Long>
         var rawUser = User.builder()
             .login(registrationModel.getLogin())
             .email(registrationModel.getEmail())
-            .password(registrationModel.getRawPassword())
+            .password(registrationModel.getPassword())
             .role(Role.builder().id(info.getRoleId()).build())
             .build();
 

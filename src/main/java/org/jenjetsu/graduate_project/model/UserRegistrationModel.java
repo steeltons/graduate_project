@@ -14,7 +14,7 @@ public class UserRegistrationModel {
 
     private String email;
 
-    private String rawPassword;
+    private String password;
 
     private UUID registrationCode;
 
